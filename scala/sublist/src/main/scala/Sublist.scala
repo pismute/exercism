@@ -4,7 +4,7 @@ object Sublist extends Enumeration {
   implicit class SeqHelpers(s: Seq[_]) {
     def isSublistOf(sub: Seq[_]) =
       if(sub.isEmpty) true
-      else s.sliding(sub.size).find(_ == sub) != None
+      else s.sliding(sub.size).exists(_ == sub)
   }
 
   def sublist(s: Seq[_], sub: Seq[_]) =
