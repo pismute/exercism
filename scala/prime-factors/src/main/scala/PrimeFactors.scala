@@ -1,14 +1,18 @@
 object PrimeFactors {
-  def primeFactors(nr:Long) = {
-    def _primeFactors(nr: Long, divisor: Long = 2, acc: List[Long] = Nil): List[Long] = {
-      if(nr < divisor) acc
-      else (nr%divisor) match {
-        case 0 => _primeFactors(nr/divisor, divisor, divisor :: acc)
-        case _ => _primeFactors(nr, divisor+1, acc)
-      }
+  def unfoldRight[A,B](seed: B)(f: B => Option[(A,B)]): Seq[A] =
+    f(seed) match {
+      case None => Seq()
+      case Some((a,b)) => a +: unfoldRight(b)(f)
     }
 
-    _primeFactors(nr).reverse
+  val Divisors = Stream.from(2)
+
+  def primeFactors(nr:Long) =
+    unfoldRight(nr){ seed =>
+      if(seed == 1L) None
+      else Divisors
+        .find(seed%_ == 0)
+        .map(divisor => (divisor, seed/divisor))
   }
 
   def apply() = PrimeFactors
