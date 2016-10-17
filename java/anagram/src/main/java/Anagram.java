@@ -13,8 +13,8 @@ public class Anagram {
     private static String sort(String s) {
         return s.chars()
                 .sorted()
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString();
+                .mapToObj(i-> String.valueOf((char)i))
+                .collect(Collectors.joining());
     }
 
     public List<String> match(List<String> candidates) {
