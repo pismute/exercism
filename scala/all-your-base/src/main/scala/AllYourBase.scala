@@ -9,18 +9,27 @@ object AllYourBase {
     loop(seed)(Nil)
   }
 
+  def from10(nr: Int, base: Int) =
+    unfoldLeft(nr)(x => if(x>0) Option((x/base, x%base)) else None)
+
+  def validDigit(base: Int, digit: Int) =
+    Option(digit).filter(0 <= _).filter(_ < base)
+
   def to10(base: Int, digits: Seq[Int]) =
-    digits.reverse.zipWithIndex.foldLeft(0) {
-      case (acc, (digit, i)) => digit * math.pow(base, i).toInt + acc
+    digits.foldLeft(Option(0)) { (acc, digit) =>
+        for {
+          decimal <- acc
+          d <- validDigit(base, digit)
+        } yield decimal * base + d
     }
 
-  def from10(nr: Int, base: Int) =
-    if(nr >= 0) Some(unfoldLeft(nr)(x => if(x>0) Some((x/base, x%base)) else None))
-    else None
-
-  def isValidDigit(base: Int, digit: Int) = 0 <= digit && digit < base
+  def validBase(base: Int) =
+    Option(base).filter(_ > 1)
 
   def rebase(from: Int, digits: Seq[Int], to: Int) =
-    if(from <= 1 || digits.exists(!isValidDigit(from, _: Int)) || to <= 1) None
-    else from10(to10(from, digits), to)
+    for {
+      f <- validBase(from)
+      t <- validBase(to)
+      dec <- to10(f, digits)
+    } yield from10(dec, t)
 }
