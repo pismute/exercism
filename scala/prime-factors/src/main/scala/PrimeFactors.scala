@@ -12,7 +12,7 @@ object PrimeFactors {
       if(seed == 1L) None
       else Divisors
         .find(seed%_ == 0)
-        .map(divisor => (divisor, seed/divisor))
+            .map(divisor => (divisor, seed/divisor))
   }
 
   def apply() = PrimeFactors
