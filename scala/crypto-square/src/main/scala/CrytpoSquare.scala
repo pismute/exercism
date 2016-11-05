@@ -1,10 +1,8 @@
 object CryptoSquare {
-  val NotWord = "\\W+"
-
   type PlainText = String
 
   implicit class PlainTextOps(text: PlainText) {
-    def normalize = text.replaceAll(NotWord, "").toLowerCase
+    def normalize = text.filter(_.isLetterOrDigit).toLowerCase
     def squareSize = math.sqrt(text.size).ceil.toInt
     def segments = {
       val normalized = text.normalize
