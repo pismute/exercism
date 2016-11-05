@@ -1,39 +1,38 @@
+import scala.util.Try
+
 object CryptoSquare {
   type PlainText = String
+  type CipherText = String
+
+  def transposeAll(xss: Seq[String], size: Int): Seq[Seq[Char]] =
+    (for{
+      i <- (0 until size)
+      xs <- xss
+    } yield Try(xs.charAt(i)).toOption)
+      .grouped(xss.size)
+        .map(_.filterNot(_ == None))
+        .map(_.map(_.get))
+        .toSeq
 
   implicit class PlainTextOps(text: PlainText) {
-    def normalize = text.filter(_.isLetterOrDigit).toLowerCase
-    def squareSize = math.sqrt(text.size).ceil.toInt
-    def segments = {
+    def normalize: PlainText = text.filter(_.isLetterOrDigit).toLowerCase
+
+    def squareSize: Int = math.sqrt(text.size).ceil.toInt
+
+    def segments: List[PlainText] = {
       val normalized = text.normalize
       val squareSize = normalized.squareSize
 
       if(squareSize > 0) normalized.grouped(squareSize).toList else Nil
     }
 
-    def normalizedCiphertext(separator: String) = {
+    def normalizedCiphertext(separator: String): CipherText = {
       val segments = text.segments
-      val size = segments.size
 
-      def rowToColOfSquare(iFrom: Int, iUntil:Int, jFrom: Int, jUntil: Int) =
-        (for {
-          i <- iFrom until iUntil
-          j <- jFrom until jUntil
-        } yield segments(j)(i))
-          .grouped(jUntil)
-          .map(_.mkString)
-          .toList
-
-      if(size < 2) ""
-      else {
-        val headSize = segments.head.size
-        val lastSize = segments.last.size
-
-        val init = rowToColOfSquare(0, lastSize, 0, size)
-        val tail = rowToColOfSquare(lastSize, headSize, 0, size-1)
-
-        (init ++ tail).mkString(separator)
-      }
+      if(segments.isEmpty) ""
+      else transposeAll(segments, segments.head.size)
+        .map(_.mkString)
+        .mkString(separator)
     }
   }
 
