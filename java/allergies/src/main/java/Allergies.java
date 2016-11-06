@@ -1,4 +1,4 @@
-import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,7 +14,7 @@ public class Allergies {
     }
 
     public List<Allergen> getList() {
-        return Arrays.asList(Allergen.values()).stream()
+        return EnumSet.allOf(Allergen.class).stream()
                 .filter(this::isAllergicTo)
                 .collect(Collectors.toList());
     }
