@@ -22,9 +22,10 @@ object Bearing extends Enumeration {
 import Bearing._
 
 case class Robot(bearing: Bearing, coordinates: (Int, Int)) {
-  def turnLeft() = Robot(nextLeft(bearing), coordinates)
-  def turnRight() = Robot(nextRight(bearing), coordinates)
+  def turnLeft() = copy(bearing = nextLeft(bearing))
+  def turnRight() = copy(bearing = nextRight(bearing))
   def advance = copy(coordinates = advanceCoordinates)
+
   def advanceCoordinates =
     bearing match {
       case North => (coordinates._1, coordinates._2 + 1)
