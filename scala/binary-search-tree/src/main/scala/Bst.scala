@@ -1,30 +1,23 @@
-case class Bst[+A](value: A, left: Option[Bst[A]] = None, right: Option[Bst[A]] = None) {
-  def insert[B >: A: Ordering](x: B): Bst[B] =
-    if(implicitly[Ordering[B]].lteq(x, value)) Bst(value, left.map(_.insert(x)).orElse(Some(Bst(x))), right)
-    else Bst(value, left, right.map(_.insert(x)).orElse(Some(Bst(x))))
+case class Bst[A: Ordering](value: A, left: Option[Bst[A]] = None, right: Option[Bst[A]] = None) {
+  def insert(x: A): Bst[A] =
+    if(implicitly[Ordering[A]].lteq(x, value)) copy(left = left.map(_.insert(x)).orElse(Some(Bst(x))))
+    else copy(right = right.map(_.insert(x)).orElse(Some(Bst(x))))
 
+  def foldRight[B](z: B)(f: (A, B) => B): B = {
+    val rz = right.map(_.foldRight(z)(f)).getOrElse(z)
+    val zz = f(value, rz)
+    val lz = left.map(_.foldRight(zz)(f)).getOrElse(zz)
+    lz
+  }
 }
 
 object Bst {
-  def toList[A](xs: Bst[A]): List[A] = {
-    def loop(xs:Bst[A], acc: List[A]): List[A] =
-      xs match {
-        case Bst(value, None, None) => value +: acc
-        case Bst(value, Some(left), None) => loop(left, value +: acc)
-        case Bst(value, None, Some(right)) => value +: loop(right, acc)
-        case Bst(value, Some(left), Some(right)) => loop(left, value +: loop(right, acc))
-      }
-
-    loop(xs, Nil)
-  }
+  def toList[A](xs: Bst[A]): List[A] =
+    xs.foldRight[List[A]](Nil)(_ +: _)
 
   def fromList[A : Ordering](xs: Seq[A]): Bst[A] = {
     require(!xs.isEmpty)
 
-    xs.foldLeft[Option[Bst[A]]](None){
-      case (None, x) => Some(Bst(x))
-      case (Some(root), x) => Some(root.insert(x))
-    }
-      .get
+    xs.tail.foldLeft(Bst(xs.head))(_ insert _)
   }
 }
