@@ -13,20 +13,19 @@ object House {
     |that killed the rat
     |that ate the malt
     |that lay in the house that Jack built."""
-      .stripMargin.split('\n').toList ++ List("")
+      .stripMargin.split('\n')
+        .foldRight(List(""))(_ +: _)
 
-  val RhymesSize = Rhymes.size
-
-  def dropBefore_The(xs: String) = xs.drop(xs.indexOf(" the"))
+  def dropWith(xs: String, before: String) = xs.drop(xs.indexOf(before))
 
   def takeRhymes(n: Int) = {
-    val rhymes = Rhymes.drop(RhymesSize-1 - n)
+    val rhymes = Rhymes.takeRight(n + 1)
 
-    ("This is" ++ dropBefore_The(rhymes.head)) +: rhymes.tail
+    ("This is" ++ dropWith(rhymes.head, " the")) +: rhymes.tail
   }
 
   lazy val rhyme: String =
-    (for(i <- 1 until RhymesSize) yield takeRhymes(i))
+    (for(i <- 1 until Rhymes.size) yield takeRhymes(i))
       .map(_.mkString("\n"))
       .mkString("\n") + "\n"
 }
