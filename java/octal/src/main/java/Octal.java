@@ -15,7 +15,6 @@ public class Octal {
         return octal.chars()
                 .map(i-> i - '0')
                 .mapToObj(Octal::validOctal)
-                .peek(System.out::println)
                 .reduce(OptionalInt.of(0), (acc, digit)->
                         acc.isPresent() && digit.isPresent()?
                                 OptionalInt.of(acc.getAsInt()*8 + digit.getAsInt()):
