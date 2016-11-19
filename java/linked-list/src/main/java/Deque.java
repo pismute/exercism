@@ -1,37 +1,60 @@
-import java.util.NoSuchElementException;
+import java.util.Optional;
 
 public class Deque<A> {
-    private final HeadNode<A> head;
-    private final TailNode<A> tail;
+    private Optional<Node<A>> head;
+    private Optional<Node<A>> tail;
 
     public Deque() {
-        this.head = new HeadNode<>(null);
-        this.tail = new TailNode<>(this.head);
-        this.head.setNext(this.tail);
+        this.head = Optional.empty();
+        this.tail = Optional.empty();
     }
 
     public void push(A a) {
-        tail.push(a);
+        Optional<Node<A>> optionalNode = Node.optionalOf(a, Optional.empty(), tail);
+
+        tail.ifPresent(node-> node.setNext(optionalNode));
+
+        tail = optionalNode;
+
+        if(!head.isPresent()) head = tail;
     }
 
     public A pop() {
-        return tail.pop();
+        Node<A> detached = tail.get();
+
+        tail = tail.flatMap(node-> node.getPrev());
+
+        if(!tail.isPresent()) head = tail;
+
+        return detached.getValue();
     }
 
     public A shift() {
-        return head.shift();
+        Node<A> detached = head.get();
+
+        head = head.flatMap(node-> node.getNext());
+
+        if(!head.isPresent()) tail = head;
+
+        return detached.getValue();
     }
 
     public void unshift(A a) {
-        head.unshift(a);
+        Optional<Node<A>> optionalNode = Node.optionalOf(a, head, Optional.empty());
+
+        head.ifPresent(node-> node.setPrev(optionalNode));
+
+        head = optionalNode;
+
+        if(!tail.isPresent()) tail = head;
     }
 
     public static class Node<A> {
         private final A value;
-        private Node<A> next;
-        private Node<A> prev;
+        private Optional<Node<A>> next;
+        private Optional<Node<A>> prev;
 
-        public Node(A value, Node<A> next, Node<A> prev) {
+        public Node(A value, Optional<Node<A>> next, Optional<Node<A>> prev) {
             this.value = value;
             this.next = next;
             this.prev = prev;
@@ -41,104 +64,24 @@ public class Deque<A> {
             return value;
         }
 
-        public Node<A> getNext() {
+        public Optional<Node<A>> getNext() {
             return next;
         }
 
-        public Node<A> getPrev() {
+        public Optional<Node<A>> getPrev() {
             return prev;
         }
 
-        public void setNext(Node<A> next) {
+        public void setNext(Optional<Node<A>> next) {
             this.next = next;
         }
 
-        public void setPrev(Node<A> prev) {
+        public void setPrev(Optional<Node<A>> prev) {
             this.prev = prev;
         }
 
-        public boolean isEmpty() {
-            return false;
-        }
-    }
-
-    public static class HeadNode<A> extends Node<A> {
-        public HeadNode(Node<A> next) {
-            super(null, next, null);
-        }
-
-        @Override
-        public A getValue() {
-            throw new NoSuchElementException("head empty");
-        }
-
-        @Override
-        public Node<A> getPrev() {
-            throw new NoSuchElementException("head empty");
-        }
-
-        @Override
-        public void setPrev(Node<A> prev) {
-            throw new NoSuchElementException("head empty");
-        }
-
-        @Override
-        public boolean isEmpty() {
-            return true;
-        }
-
-        public void unshift(A a) {
-            Node<A> node = new Node<>(a, getNext(), this);
-            getNext().setPrev(node);
-            setNext(node);
-        }
-
-        public A shift() {
-            A a = getNext().getValue();
-            getNext().getNext().setPrev(this);
-            setNext(getNext().getNext());
-            return a;
-        }
-    }
-
-    public static class TailNode<A> extends Node<A> {
-        public TailNode(Node<A> prev) {
-            super(null, null, prev);
-        }
-
-        @Override
-        public A getValue() {
-            throw new NoSuchElementException("tail empty");
-        }
-
-        @Override
-        public Node<A> getNext() {
-            throw new NoSuchElementException("tail empty");
-        }
-
-        @Override
-        public void setNext(Node<A> next) {
-            throw new NoSuchElementException("tail empty");
-        }
-
-        @Override
-        public boolean isEmpty() {
-            return true;
-        }
-
-        public void push(A a) {
-            Node<A> node = new Node<>(a, this, getPrev());
-
-            getPrev().setNext(node);
-            setPrev(node);
-        }
-
-        public A pop() {
-            A a = getPrev().getValue();
-
-            getPrev().getPrev().setNext(this);
-            setPrev(getPrev().getPrev());
-            return a;
+        public static <B> Optional<Node<B>> optionalOf(B a, Optional<Node<B>> next, Optional<Node<B>> prev) {
+            return Optional.of(new Node(a, next, prev));
         }
     }
 }
