@@ -1,7 +1,5 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
+import java.util.Arrays;
+import java.util.stream.IntStream;
 
 import static java.util.Arrays.stream;
 
@@ -21,7 +19,7 @@ public class Luhn {
 
         final int len = digits.length;
 
-        return doubleEverySecond(digits, len%2, len);
+        return doubleEverySecond(digits, len%2);
     }
 
     public int getCheckSum() {
@@ -33,33 +31,29 @@ public class Luhn {
     }
 
     public static int[] toDigits(int number) {
-        final List<Integer> unfolded = Luhn.unfoldLeft(number, (Integer seed) -> {
-            final int s = seed.intValue();
-            return s <= 0? Optional.empty():
-                    Optional.of(Pair.of(s / 10, s % 10));
-        });
+        final int[] reversed =
+                IntStream.iterate(number, nr-> nr / 10)
+                        .limit((long)Math.log10(number) + 1)
+                        .map(nr-> nr % 10)
+                        .toArray();
 
-        return unfolded.stream()
-                .mapToInt(Integer::intValue)
-                .toArray();
+        return reverseArray(reversed);
     }
 
-    public static int[] doubleEverySecond(int[] is, int start, int until) {
-        for(int i = start; i < until; i += 2) {
-            final int ii = is[i] * 2;
-            is[i] = ii > 9? ii - 9: ii;
-        }
-
-        return is;
+    public static int[] doubleEverySecond(int[] is, int evenOdd) {
+        return IntStream.range(0, is.length)
+                .map(i-> i%2==evenOdd? is[i]*2: is[i])
+                .map(i-> i > 9? i-9: i)
+                .toArray();
     }
 
     public static long create(int number) {
         final int[] digits = toDigits(number);
         final int len = digits.length;
 
-        doubleEverySecond(digits, len%2 == 0? 1: 0, len);
+        final int[] doubled = doubleEverySecond(digits, 1 - len%2);
 
-        final long checksum = (10 - (stream(digits).sum() % 10)) % 10;
+        final long checksum = (10 - (Arrays.stream(doubled).sum() % 10)) % 10;
 
         return (long)number * 10 + checksum;
     }
@@ -68,39 +62,10 @@ public class Luhn {
         return stream(is).sum();
     }
 
-    public static <A, B> List<B> unfoldLeft(A seed, Function<A, Optional<Pair<A, B>>> f) {
-        final List<B> list = new ArrayList<B>();
-
-        Optional<Pair<A, B>> o = f.apply(seed);
-        while(o.isPresent()) {
-            o = o.flatMap(pair -> {
-                list.add(0, pair.getRight());
-                return f.apply(pair.getLeft());
-            });
-        }
-
-        return list;
-    }
-
-    public static class Pair<Left, Right> {
-        private final Left left;
-        private final Right right;
-
-        public Pair(Left left, Right right) {
-            this.left = left;
-            this.right = right;
-        }
-
-        public Left getLeft() {
-            return left;
-        }
-
-        public Right getRight() {
-            return right;
-        }
-
-        public static <A, B> Pair<A, B> of(A a, B b) {
-            return new Pair<>(a, b);
-        }
+    public static int[] reverseArray(int[] array) {
+        final int len = array.length;
+        return IntStream.rangeClosed(1, len)
+                .map(i-> array[len-i])
+                .toArray();
     }
 }
