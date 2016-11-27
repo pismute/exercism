@@ -16,11 +16,12 @@ public final class BoardCoordinate {
         this.file = file;
     }
 
-    public boolean canAttack(BoardCoordinate that) {
-        return rank == that.rank ||
-                file == that.file ||
-                rank - file == that.rank - that.file ||
-                rank + file == that.rank + that.file;
+    public int getRank() {
+        return rank;
+    }
+
+    public int getFile() {
+        return file;
     }
 
     @Override

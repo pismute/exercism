@@ -13,6 +13,9 @@ public final class QueenAttackCalculator {
     }
 
     public boolean canQueensAttackOneAnother() {
-        return white.canAttack(black);
+        return white.getRank() == black.getRank() ||
+                white.getFile() == black.getFile() ||
+                white.getRank() - white.getFile() == black.getRank() - black.getFile() ||
+                white.getRank() + white.getFile() == black.getRank() + black.getFile();
     }
 }
