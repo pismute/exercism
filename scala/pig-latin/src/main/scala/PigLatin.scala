@@ -1,21 +1,15 @@
 package
 
 object PigLatin {
-  val Vowels = Seq("a", "e", "i", "o", "u")
-  val Consonants = Seq("ch", "thr", "th", "sch", "qu", "squ")
-
-  def ayVowel(plain: String): Option[String] =
-    Vowels.find(plain.startsWith)
-      .map(_=> plain + "ay")
-
-  def ayConsonant(plain: String): Option[String] =
-    Consonants.find(plain.startsWith)
-      .map(cs=> plain.drop(cs.length) + cs + "ay")
+  val Vowels = "^([aeiou])(.*)".r
+  val Consonants = "^(ch|thr|th|sch|qu|squ)(.*)".r
 
   def ay(plain: String): String =
-    ayVowel(plain)
-      .orElse(ayConsonant(plain))
-      .getOrElse(plain.tail + plain.head + "ay")
+    plain match {
+      case Vowels(startWith, _) => plain + "ay"
+      case Consonants(startWith, xs) => xs + startWith + "ay"
+      case _ => plain.tail + plain.head + "ay"
+    }
 
   def translate(plain: String): String =
     plain.split("\\s")
