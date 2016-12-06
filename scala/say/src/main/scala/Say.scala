@@ -1,5 +1,3 @@
-import scala.annotation.tailrec
-
 object Say {
   val LowerBound = 0L
   val UpperBound = 999999999999L
@@ -31,9 +29,10 @@ object Say {
     60L -> "sixty",
     70L -> "seventy",
     80L -> "eighty",
-    90L -> "ninety")
-
-  val ScaleWords = Seq(Option("billion"), Option("million"), Option("thousand"), None)
+    90L -> "ninety",
+    1000L -> "thousand",
+    1000000L -> "million",
+    1000000000L -> "billion")
 
   def say00(nr: Long): Option[String] =
     if(nr == 0) None
@@ -55,39 +54,31 @@ object Say {
     }
   }
 
+  def sayRight(nr: Long): Seq[String] =
+    if(nr == 0) Seq.empty
+    else {
+      val len = math.log10(nr).toLong
+      val scale = if(len >= 3) math.pow(1000, (len/3)).toLong else 0
+
+      val says: Option[String] =
+        for{
+          c <- say000(if(scale == 0) nr else nr / scale)
+          s = Numbers.get(scale)
+        } yield s.map(ss => s"$c $ss").getOrElse(c)
+
+      val acc = sayRight(if(scale == 0) 0 else nr % scale)
+
+      says.map(_ +: acc).getOrElse(acc)
+    }
+
   def validNumber(n: Long): Option[Long] =
     if( LowerBound <= n && n <= UpperBound ) Option(n)
     else None
-
-  def combine(chunkAndScales: Seq[(Long, Option[String])]) =
-    (for{
-      (chunk, scale) <- chunkAndScales
-      combined <- say000(chunk).map(c => scale.map(c + " " + _).getOrElse(c))
-    } yield combined)
-      .mkString(" ")
 
   def inEnglish(n: Long): Option[String] =
     if(n == 0) Option("zero")
     else
       for {
         nr <- validNumber(n)
-        chunks = splitByBase(1000, nr)
-        scales = ScaleWords.drop(ScaleWords.size - chunks.size)
-      } yield combine(chunks zip scales)
-
-  def splitByBase(base: Long, n: Long): Seq[Long] =
-    unfoldLeft(n)(z=>
-      if(z <= 0) None
-      else Option((z/base, z%base)))
-
-  def unfoldLeft[Z, A](seed: Z)(f: Z => Option[(Z, A)]): Seq[A] = {
-    @tailrec
-    def loop(z: Z, acc: Seq[A]): Seq[A] =
-      f(z) match {
-        case None => acc
-        case Some((zz, a)) => loop(zz, a +: acc)
-      }
-
-    loop(seed, Nil)
-  }
+      } yield sayRight(nr).mkString(" ")
 }
