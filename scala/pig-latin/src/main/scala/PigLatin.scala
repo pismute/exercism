@@ -2,7 +2,7 @@ package
 
 object PigLatin {
   val Vowels = "^([aeiou])(.*)".r
-  val Consonants = "^(ch|thr|th|sch|qu|squ|[^aeiou])(.*)".r
+  val Consonants = "^(ch|thr|th|sch|qu|squ|.)(.*)".r
 
   def ay(plain: String): String =
     plain match {
