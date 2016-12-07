@@ -1,8 +1,10 @@
+import scala.collection.immutable.SortedMap
+
 object Say {
   val LowerBound = 0L
   val UpperBound = 999999999999L
 
-  val Numbers = Map(
+  val Numbers = Seq(
     1L -> "one",
     2L -> "two",
     3L -> "three",
@@ -30,45 +32,23 @@ object Say {
     70L -> "seventy",
     80L -> "eighty",
     90L -> "ninety",
+    100L -> "hundred",
     1000L -> "thousand",
     1000000L -> "million",
-    1000000000L -> "billion")
+    1000000000L -> "billion").reverse
 
-  def say00(nr: Long): Option[String] =
-    if(nr == 0) None
-    else {
-      Numbers.get(nr)
-        .orElse {
-          val n = nr%10
-          val n0 = nr - n
-          Option((Numbers.get(n0) ++ Numbers.get(n)).mkString("-"))
-        }
-    }
-
-  def say000(n: Long): Option[String] = {
-    require(n < 1000)
-
-    say00(n / 100).map(_ + " hundred") ++ say00(n % 100) match {
-      case xs if xs.isEmpty => None
-      case xs => Option(xs.mkString(" "))
-    }
-  }
-
-  def sayRight(nr: Long): Seq[String] =
-    if(nr == 0) Seq.empty
-    else {
-      val len = math.log10(nr).toLong
-      val scale = if(len >= 3) math.pow(1000, (len/3)).toLong else 0
-
-      val says: Option[String] =
-        for{
-          c <- say000(if(scale == 0) nr else nr / scale)
-          s = Numbers.get(scale)
-        } yield s.map(ss => s"$c $ss").getOrElse(c)
-
-      val acc = sayRight(if(scale == 0) 0 else nr % scale)
-
-      says.map(_ +: acc).getOrElse(acc)
+  def sayRight(nr: Long, nrs: Seq[(Long, String)], acc: Seq[String]): Seq[String] =
+    if(nr == 0) acc
+    else nrs match {
+      case Seq() => acc
+      case Seq((x, _), xs @ _*) if nr < x =>
+        sayRight(nr, xs, acc)
+      case Seq((x, expr), xs @ _*) if nr < 100 =>
+        sayRight(if(nr < 2*x) 0 else nr / x, xs,
+          (expr +: sayRight(nr % x, xs, Seq.empty)).mkString("-") +: acc)
+      case Seq((x, expr), xs @ _*) =>
+        sayRight(nr / x, xs,
+          expr +: sayRight(nr % x, xs, acc))
     }
 
   def validNumber(n: Long): Option[Long] =
@@ -80,5 +60,5 @@ object Say {
     else
       for {
         nr <- validNumber(n)
-      } yield sayRight(nr).mkString(" ")
+      } yield sayRight(nr, Numbers, Seq.empty).mkString(" ")
 }
