@@ -17,14 +17,14 @@ object Connect {
 
 import Connect._
 
-object Color {
-  trait Color {
-    def stone: Char
-    def isStart(board: Board): Point => Boolean
-    def isEnd(board: Board): Point => Boolean
-    def startPointsIn(board: Board): Seq[Point]
-  }
+sealed trait Color {
+  def stone: Char
+  def isStart(board: Board): Point => Boolean
+  def isEnd(board: Board): Point => Boolean
+  def startPointsIn(board: Board): Seq[Point]
+}
 
+object Color {
   case object White extends Color {
     val stone = 'O'
 
