@@ -12,6 +12,6 @@ class Triangle (a:Int, b:Int, c: Int) {
   lazy val triangleType =
     if(first <= 0 || first + second < third) TriangleType.Illogical
     else if(first == second && second == third) TriangleType.Equilateral
-    else if(second == third) TriangleType.Isosceles
+    else if(first == second || second == third) TriangleType.Isosceles
     else TriangleType.Scalene
 }

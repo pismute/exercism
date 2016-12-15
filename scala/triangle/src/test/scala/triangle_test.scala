@@ -17,6 +17,10 @@ class TriangleTest extends FlatSpec with Matchers {
     Triangle(4, 3, 4).triangleType should equal(TriangleType.Isosceles)
   }
 
+  it should "calc Isosceles3" in {
+    Triangle(3, 3, 4).triangleType should equal(TriangleType.Isosceles)
+  }
+
   it should "calc Scalene" in {
     Triangle(3, 4, 5).triangleType should equal(TriangleType.Scalene)
   }
