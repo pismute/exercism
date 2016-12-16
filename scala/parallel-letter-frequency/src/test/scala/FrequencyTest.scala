@@ -79,7 +79,7 @@ class FrequencyTest extends FunSuite with Matchers {
     freqs.get('ü') should be (Some(2))
   }
 
-  test("All three anthems * 10 - 4 workers") {
+  test("All three anthems * 10000 - 4 workers") {
     val a = ode_an_die_freude ++ wilhelmus ++ star_spangled_banner
     val times = 10000
     val as = (0 until times).map(_ => a).foldLeft(Seq.empty[String])(_ ++ _)
