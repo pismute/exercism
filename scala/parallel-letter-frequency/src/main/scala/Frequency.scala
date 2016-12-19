@@ -36,7 +36,7 @@ object Frequency {
 
   def withFuture[A, B](n: Int, seq: Seq[A])(build: (GenSeq[A]) => B, combine: (B, B) => B): B = {
     implicit val executionContext =
-      ExecutionContext.fromExecutorService(new ForkJoinPool(n))
+      ExecutionContext.fromExecutorService(Executors.newWorkStealingPool(n))
 
     val futures =
       seq.grouped(seq.size/n + 1)
