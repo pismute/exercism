@@ -2,9 +2,7 @@ import scala.util.parsing.combinator._
 
 object Alphametics {
   type Dict = Char => Int
-  trait Value extends (()=> Option[Double]){
-    def apply() : Option[Double]
-  }
+  trait Value extends (()=> Option[Double])
 
   case class Plus(left: Value, right: Value) extends Value {
     def apply() =
