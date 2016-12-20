@@ -27,30 +27,22 @@ object Sgf extends RegexParsers {
   type Dict = String => Boolean
   type SgfBuilder = (Dict, Forest[SgfNode]) => Option[Forest[SgfNode]]
 
-  def openSquare: Parser[String] = "(?<!\\\\)\\[".r
-  def closeSquare: Parser[String] =  "(?<!\\\\)\\]".r
-  def wordLiteral: Parser[String] = "\\w+".r
-  def anyLiteral: Parser[String] = "(?:\\\\]|[^\\]])+".r ^^ (escape)
+  override val skipWhitespace = false
 
-  def escape(string: String): String = {
-    @tailrec
-    def loop(seq: Seq[Char], acc : Seq[Char] = Seq.empty): Seq[Char] =
-      seq match {
-        case Seq() => acc
-        case Seq('\\', ' ' | '\n' | '\t', xs @ _*) => loop(xs, acc)
-        case Seq('\n' | '\t', xs @ _*) => loop(xs, ' ' +: acc)
-        case Seq('\\', x, xs @ _*) => loop(xs, x +: acc)
-        case Seq(x, xs @ _*) => loop(xs, x +: acc)
-      }
+  def const[A](a: A)(ignore: Any) = a
 
-    loop(string.toSeq)
-      .reverse
-      .mkString
+  def valueLiteral: Parser[String] = {
+    val escapedNewline: Parser[String] = """\\\s""".r ^^ const("")
+    val whitespace: Parser[String] = """\s""".r ^^ const(" ")
+    val escapedChar: Parser[String] = """\\.""".r ^^ (_.drop(1))
+    val notCloseSquare: Parser[String] = "[^]]".r
+
+    escapedNewline | escapedChar | whitespace | notCloseSquare
   }
 
-  def key: Parser[String] = wordLiteral
+  def key: Parser[String] = "\\w+".r
   def value: Parser[List[String]] =
-    (openSquare ~> anyLiteral <~ closeSquare).+
+    ("[" ~> (valueLiteral).+ <~ "]").+ ^^ (_.map(_.mkString))
 
   def node: Parser[SgfBuilder] =
     ";" ~> (key ~ value).? ^^ {
