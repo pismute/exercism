@@ -2,6 +2,7 @@ import scala.util.parsing.combinator.RegexParsers
 import scala.annotation.tailrec
 
 object Sgf extends RegexParsers {
+  val Properties = Set("FF", "C", "SZ", "B", "AB", "W", "AW", "A", "C")
 
   type Tree[A] = Node[A] // to separate the type from the constructor, cf. Haskell's Data.Tree
   type Forest[A] = List[Tree[A]]
@@ -14,11 +15,9 @@ object Sgf extends RegexParsers {
   // Keys may have multiple values associated with them.
   type SgfNode = Map[String, List[String]]
 
-  val properties = Set("FF", "C", "SZ", "B", "AB", "W", "AW", "A", "C")
-
   def parseSgf(text: String): Option[SgfTree] =
     parseAll(sgf, text) match {
-      case Success(builder, _) => builder(properties, List.empty).map(_.head)
+      case Success(builder, _) => builder(Properties, List.empty).map(_.head)
       case failed =>
         //println(failed)
         None
@@ -28,7 +27,6 @@ object Sgf extends RegexParsers {
   type Dict = String => Boolean
   type SgfBuilder = (Dict, Forest[SgfNode]) => Option[Forest[SgfNode]]
 
-  def WhiteSpace = "\\s".r
   def openSquare: Parser[String] = "(?<!\\\\)\\[".r
   def closeSquare: Parser[String] =  "(?<!\\\\)\\]".r
   def wordLiteral: Parser[String] = "\\w+".r
