@@ -1,5 +1,5 @@
+import scala.Function.const
 import scala.util.parsing.combinator.RegexParsers
-import scala.annotation.tailrec
 
 object Sgf extends RegexParsers {
   val Properties = Set("FF", "C", "SZ", "B", "AB", "W", "AW", "A", "C")
@@ -28,8 +28,6 @@ object Sgf extends RegexParsers {
   type SgfBuilder = (Dict, Forest[SgfNode]) => Option[Forest[SgfNode]]
 
   override val skipWhitespace = false
-
-  def const[A](a: A)(ignore: Any) = a
 
   def valueLiteral: Parser[String] = {
     val escapedNewline: Parser[String] = """\\\s""".r ^^ const("")
