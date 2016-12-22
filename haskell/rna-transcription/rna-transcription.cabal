@@ -12,7 +12,6 @@ library
       src
   build-depends:
       base
-    , containers
   exposed-modules:
       DNA
   other-modules:
