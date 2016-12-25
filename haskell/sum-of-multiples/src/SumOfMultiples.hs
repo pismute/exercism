@@ -1,10 +1,10 @@
 module SumOfMultiples (sumOfMultiples) where
 
-import Data.List as List
+import Data.List (nub)
 
 sumOfMultiples :: Integral a => [a] -> a -> a
 sumOfMultiples xs limit =
-  sum $ List.nub $ xs >>= (`multiples` limit)
+  sum . nub $ xs >>= multiples
   where
-    multiples x limit =
+    multiples x =
       (filter (/=limit) . map (*x)) [1..(limit `div` x)]
