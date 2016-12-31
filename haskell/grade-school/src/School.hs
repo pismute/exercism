@@ -1,23 +1,23 @@
 module School (School, add, empty, grade, sorted) where
 
-import Data.Function (on)
-import Data.List (sortBy, sort)
-import Data.Maybe (fromMaybe)
+import Data.List (sort)
+import qualified Data.Map as M
 
-type Grade = (Int, [String])
-type School = [Grade]
+type School = M.Map Int [String]
+type Grades = [(Int, [String])]
 
 add :: Int -> String -> School -> School
-add grade name grades =
-  case span ((/=grade) . fst) grades of
-    (ys, []) -> ys ++ [(grade, [name])]
-    (ys, (z : zs)) -> ys ++ [(grade, (++[name]) . snd $ z)] ++ zs
+add grade name school =
+  M.alter append grade school
+  where
+    append (Nothing) = Just [name]
+    append (Just xs) = Just $ xs ++ [name]
 
 empty :: School
-empty = []
+empty = M.empty
 
 grade :: Int -> School -> [String]
-grade g grades = fromMaybe [] $ lookup g grades
+grade = M.findWithDefault []
 
-sorted :: School -> School
-sorted grades = sortBy (compare `on` fst) $ (sort <$>) <$> grades
+sorted :: School -> Grades
+sorted = ((sort <$>) <$>) . M.toAscList
