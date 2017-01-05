@@ -5,13 +5,11 @@ object Acronym {
 class Acronym(phrase: String) {
   import Acronym._
 
-  def capitalize(s: String) = s.head.toUpper + s.tail
-
   def abbreviate: String =
     phrase
       .takeWhile(_ != ':')
       .split("\\W+")
-        .map(capitalize)
+        .map(_.capitalize)
         .mkString
           .filter(_.isUpper)
 }
