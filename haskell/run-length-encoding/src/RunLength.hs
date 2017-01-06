@@ -4,16 +4,12 @@ import qualified Data.List as L
 import qualified Data.Char as C
 
 decode :: String -> String
-decode [] = []
-decode xs = let
-  (ns, ys) = span C.isDigit xs
-  n = parseCount ns
-  h = head ys
-  zs = tail ys
-  in replicate n h ++ decode zs
+decode = (>>= snd) . reverse . (drop 1) . foldl decodeOne [(0, "")]
   where
-    parseCount [] = 1
-    parseCount xs = (read xs :: Int)
+    decodeOne ((n, _) : xs) a =
+      if C.isDigit a
+        then (n*10 + C.digitToInt a, "") : xs
+        else (0, "") : (0, replicate (max n 1) a) : xs
 
 encode :: String -> String
 encode = (>>= codify) . L.group
