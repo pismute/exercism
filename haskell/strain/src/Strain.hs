@@ -1,7 +1,7 @@
 module Strain (keep, discard) where
 
 discard :: (a -> Bool) -> [a] -> [a]
-discard = undefined
+discard f xs = [ x | x <- xs, not $ f x ]
 
 keep :: (a -> Bool) -> [a] -> [a]
-keep = undefined
+keep f xs = [ x | x <- xs, f x ]
