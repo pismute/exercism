@@ -1,12 +1,12 @@
 module Raindrops (convert) where
 
+import qualified Data.Map as M
+
+pliaong = M.fromList [(3, "Pling"), (5, "Plang"), (7, "Plong")]
+
 convert n =
-  case foldr ((++) . pliaong) "" $ factors n of
+  case (pliaong M.!) <$> factors n of
     [] -> show n
-    xs -> xs
+    xs -> xs >>= id
   where
-    factors n = [ i | i <- [1..n], n `mod` i == 0]
-    pliaong 3 = "Pling"
-    pliaong 5 = "Plang"
-    pliaong 7 = "Plong"
-    pliaong _ = ""
+    factors n = [ i | i <- M.keys pliaong, n `mod` i == 0]
