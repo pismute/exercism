@@ -4,19 +4,14 @@ import qualified Data.List as L
 import qualified Data.Char as C
 
 decode :: String -> String
+decode [] = []
 decode xs = let
-  Right ys = sequence . reverse $ foldl decodeOne [] xs
-  in ys >>= id
+  (ns, y:ys) = span C.isDigit xs
+  n = parseCount ns
+  in replicate n y ++ decode ys
   where
-    decodeOne :: [Either Int String] -> Char -> [Either Int String]
-    decodeOne (Left n: xs) a =
-      if C.isDigit a
-        then (Left $ n*10 + C.digitToInt a) : xs
-        else (Right $ replicate n a) : xs
-    decodeOne xs a =
-      if C.isDigit a
-        then (Left $ C.digitToInt a) : xs
-        else (Right $ [a]) : xs
+    parseCount [] = 1
+    parseCount xs = (read xs :: Int)
 
 encode :: String -> String
 encode = (>>= codify) . L.group
