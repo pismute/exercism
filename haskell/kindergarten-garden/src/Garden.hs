@@ -6,6 +6,8 @@ module Garden
     ) where
 
 import qualified Data.List as L
+import Data.List.Split (chunksOf)
+import Data.Function (on)
 import qualified Data.Map as M
 
 data Plant = Clover
@@ -32,16 +34,12 @@ defaultGarden :: String -> M.Map String [Plant]
 defaultGarden = garden defaultStudents
 
 garden :: [String] -> String -> M.Map String [Plant]
-garden xs ys = M.fromList . zip (L.sort xs) $ parseGarden ys
+garden xs = M.fromList . zip (L.sort xs) . parseGarden
   where
-    sgrouped = L.unfoldr takeTwo
-      where
-        takeTwo [] = Nothing
-        takeTwo (x:y:xs) = Just ([x,y], xs)
     combine (ys, zs) = ys ++ zs
     parseGarden xs = let
       (ys, _:zs) = span (/='\n') xs
-      in toPlants <$> combine <$> zip (sgrouped ys) (sgrouped zs)
+      in toPlants <$> combine <$> (zip `on` chunksOf 2) ys zs
 
 lookupPlants :: String -> M.Map String [Plant] -> [Plant]
 lookupPlants = flip (M.!)
