@@ -37,9 +37,9 @@ garden :: [String] -> String -> M.Map String [Plant]
 garden xs = M.fromList . zip (L.sort xs) . parseGarden
   where
     combine (ys, zs) = ys ++ zs
-    parseGarden xs = let
-      (ys, _:zs) = span (/='\n') xs
-      in toPlants <$> combine <$> (zip `on` chunksOf 2) ys zs
+    splitOnNl = fmap (drop 1) . span (/='\n')
+    splitAndZipChunks = uncurry (zip `on` chunksOf 2) . splitOnNl
+    parseGarden = map (toPlants . combine) . splitAndZipChunks
 
 lookupPlants :: String -> M.Map String [Plant] -> [Plant]
 lookupPlants = flip (M.!)
