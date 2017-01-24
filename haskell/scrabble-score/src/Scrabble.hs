@@ -17,6 +17,8 @@ scoreDict = M.fromList $ scores >>= (uncurry expand)
   where
     expand xs n = (, n) <$> xs
 
-scoreLetter c = M.findWithDefault 0 (C.toUpper c) scoreDict
+scoreLetter =
+  flip (M.findWithDefault 0) scoreDict . C.toUpper
 
-scoreWord xs = sum $ scoreLetter <$> filter C.isLetter xs
+scoreWord =
+  sum . (map scoreLetter) . (filter C.isLetter)
