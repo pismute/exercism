@@ -21,4 +21,4 @@ scoreLetter =
   flip (M.findWithDefault 0) scoreDict . C.toUpper
 
 scoreWord =
-  sum . (map scoreLetter) . (filter C.isLetter)
+  sum . map scoreLetter
