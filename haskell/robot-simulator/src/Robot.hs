@@ -1,3 +1,4 @@
+{-# LANGUAGE DeriveAnyClass  #-}
 module Robot
     ( Bearing(East,North,South,West)
     , bearing
@@ -8,11 +9,22 @@ module Robot
     , turnRight
     ) where
 
+class (Enum a, Bounded a, Eq a) => Circular a where
+  prev :: a -> a
+  prev x
+    | x == minBound = maxBound
+    | otherwise = pred x
+
+  next :: a -> a
+  next x
+    | x == maxBound = minBound
+    | otherwise = succ x
+
 data Bearing = North
              | East
              | South
              | West
-             deriving (Eq, Show, Enum)
+             deriving (Eq, Show, Enum, Bounded, Circular)
 
 data Robot = Robot { bearing :: Bearing
                    , coordinates :: (Integer, Integer)
@@ -22,25 +34,23 @@ mkRobot :: Bearing -> (Integer, Integer) -> Robot
 mkRobot = Robot
 
 turnLeft :: Bearing -> Bearing
-turnLeft North = West
-turnLeft bearing = pred bearing
+turnLeft = prev
 
 turnRight :: Bearing -> Bearing
-turnRight West = North
-turnRight bearing = succ bearing
+turnRight = next
 
 simulate :: Robot -> String -> Robot
-simulate robot xs = foldl (\acc f -> f acc) robot $ map moveOn xs
+simulate = foldl (flip moveOn)
   where
     advance North x y = (x, y+1)
     advance East x y = (x+1, y)
     advance South x y = (x, y-1)
     advance West x y = (x-1, y)
 
-    turn f robot = robot { bearing = f $ bearing robot }
+    turn robot f = robot { bearing = f $ bearing robot }
 
-    move f robot = robot { coordinates = f $ coordinates robot }
+    move robot f = robot { coordinates = f $ coordinates robot }
 
-    moveOn 'L' robot = turn turnLeft robot
-    moveOn 'R' robot = turn turnRight robot
-    moveOn 'A' robot = move (uncurry (advance $ bearing robot)) robot
+    moveOn 'L' robot = robot `turn` turnLeft
+    moveOn 'R' robot = robot `turn` turnRight
+    moveOn 'A' robot = robot `move` (uncurry (advance $ bearing robot))
