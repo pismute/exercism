@@ -1,7 +1,7 @@
 {-# LANGUAGE FlexibleInstances #-}
 module SecretHandshake (handshake, secretWords) where
 
-import qualified Data.List as L
+import Numeric (readInt)
 import qualified Data.Char as C
 import Data.Bits ((.&.), shiftL)
 import Data.Maybe (fromMaybe)
@@ -10,29 +10,27 @@ class ToInt a where
   toInt :: a -> Int
 
 instance ToInt Int where
-  toInt n = n
+  toInt = id
 
 instance ToInt String where
-  toInt xs = fromMaybe 0 $ (foldl f 0) <$> traverse validDigit xs
+  toInt = parseInt . readBinary
     where
-      f a b = shiftL a 1 + C.digitToInt b
-      validDigit x = if C.isDigit x then Just x else Nothing
+      readBinary = readInt 2 (`elem` "01") C.digitToInt
+      parseInt [(n,"")] = n
+      parseInt _ = 0
 
 secretWords =
   [ (16, reverse)
-  , (1, wink)
-  , (2, doubleBlink)
-  , (4, closeYourEyes)
-  , (8, jump)
+  , (1, ("wink":))
+  , (2, ("double blink":))
+  , (4, ("close your eyes":))
+  , (8, ("jump":))
   ]
-  where
-    wink = ("wink":)
-    doubleBlink = ("double blink":)
-    closeYourEyes = ("close your eyes":)
-    jump = ("jump":)
 
 handshake n =
-  foldr say [] $ filter (isSecret n) secretWords
+  foldr (say n) [] secretWords
   where
-    isSecret n (bit, _) = bit == (bit .&. (toInt n))
-    say (_, f) xs = f xs
+    say n (bit, f) xs =
+      if bit == (bit .&. (toInt n))
+        then f xs
+        else xs
