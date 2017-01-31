@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveAnyClass  #-}
 module Robot
     ( Bearing(East,North,South,West)
     , bearing
@@ -9,22 +8,19 @@ module Robot
     , turnRight
     ) where
 
-class (Enum a, Bounded a, Eq a) => Circular a where
-  prev :: a -> a
-  prev x
-    | x == minBound = maxBound
-    | otherwise = pred x
+prev x
+  | x == minBound = maxBound
+  | otherwise = pred x
 
-  next :: a -> a
-  next x
-    | x == maxBound = minBound
-    | otherwise = succ x
+next x
+  | x == maxBound = minBound
+  | otherwise = succ x
 
 data Bearing = North
              | East
              | South
              | West
-             deriving (Eq, Show, Enum, Bounded, Circular)
+             deriving (Eq, Show, Enum, Bounded)
 
 data Robot = Robot { bearing :: Bearing
                    , coordinates :: (Integer, Integer)
