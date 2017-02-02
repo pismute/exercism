@@ -8,10 +8,12 @@ module Robot
     , turnRight
     ) where
 
+prev :: (Eq a, Enum a, Bounded a) => a -> a
 prev x
   | x == minBound = maxBound
   | otherwise = pred x
 
+next :: (Eq a, Enum a, Bounded a) => a -> a
 next x
   | x == maxBound = minBound
   | otherwise = succ x
@@ -49,4 +51,5 @@ simulate = foldl (flip moveOn)
 
     moveOn 'L' robot = robot `turn` turnLeft
     moveOn 'R' robot = robot `turn` turnRight
-    moveOn 'A' robot = robot `move` (uncurry (advance $ bearing robot))
+    moveOn 'A' robot = robot `move` uncurry (advance $ bearing robot)
+    moveOn _ _ = error "unexpected case"
