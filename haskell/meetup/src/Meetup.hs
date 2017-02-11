@@ -21,8 +21,8 @@ a `after` b
   | a < b = (maxBound `after` b) + (a `after` minBound) + 1
   | otherwise = ((-) `on` fromEnum) a b
 
-fromWeekday :: Weekday -> Day -> Day
-fromWeekday x day = let
+nextWeekday :: Weekday -> Day -> Day
+nextWeekday x day = let
   (_, _, week) = toWeekDate day
   weekday = toEnum (week - 1) :: Weekday
   monthDays = toInteger $ x `after` weekday
@@ -37,7 +37,7 @@ data Schedule = First
               deriving (Enum)
 
 dayOf :: Schedule -> [Day] -> Day
-dayOf Teenth = fromJust . (find isTeenth)
+dayOf Teenth = fromJust . find isTeenth
   where
     isTeenth x = let
       (_, _, monthDay) = toGregorian x
@@ -47,9 +47,9 @@ dayOf x = head . drop (fromEnum x)
 
 meetupDay :: Schedule -> Weekday -> Integer -> Int -> Day
 meetupDay schedule weekday year month = let
-  first = fromWeekday weekday $ fromMonthDay 1
+  first = nextWeekday weekday $ fromMonthDay 1
   final = fromMonthDay 31
-  weekdays = takeWhile (<=final) $ map ((`addDays` first) . (*7)) [0..]
+  weekdays = takeWhile (<=final) $ map (`addDays` first) [0, 7..]
   in dayOf schedule weekdays
   where
     fromMonthDay :: Int -> Day
