@@ -12,6 +12,7 @@ library
       src
   build-depends:
       base
+    , containers
   exposed-modules:
       Roman
   other-modules:

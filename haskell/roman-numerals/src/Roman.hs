@@ -1,9 +1,10 @@
 module Roman (numerals) where
 
 import qualified Data.List as L
+import qualified Data.Map as M
 
-romans :: [(Int, String)]
-romans =
+romans :: M.Map Int String
+romans = M.fromList
     [ (1000, "M")
     , (900, "CM")
     , (500, "D")
@@ -21,9 +22,9 @@ romans =
 
 
 numerals :: Int -> Maybe String
-numerals = Just . (>>= id) . L.unfoldr f
+numerals = Just . (>>= id) . L.unfoldr f'
   where
-    g x (y, z) = (z, x-y)
+    g' x (y, z) = (z, x-y)
 
-    f 0 = Nothing
-    f x = g x <$> L.find ((<=x) . fst) romans
+    f' 0 = Nothing
+    f' x = g' x <$> M.lookupLE x romans
