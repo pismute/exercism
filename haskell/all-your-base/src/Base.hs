@@ -1,19 +1,16 @@
 module Base (rebase) where
 
+import Control.Monad (guard)
 import qualified Data.List as L
 
 rebase :: Integral a => a -> a -> [a] -> Maybe [a]
 rebase inputBase outputBase inputDigits = do
-  _ <- validBase' inputBase
-  _ <- validBase' outputBase
-  _ <- validDigits' inputBase inputDigits
+  guard $ 2 <= inputBase
+  guard $ 2 <= outputBase
+  guard $ all (`isBaseOf'` inputBase) inputDigits
   return $ from10Base outputBase $ to10Base inputBase inputDigits
   where
-    validBase' x = if x < 2 then Nothing else Just x
-
-    validDigits' = traverse . f'
-      where
-        f' x y = if y < 0 || x <= y then Nothing else Just y
+    x `isBaseOf'` y = 0 <= x && x < y
 
     g' x a b = a*x + b
     to10Base x = foldl (g' x) 0
