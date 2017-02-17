@@ -12,10 +12,8 @@ module Matrix
     , transpose
     ) where
 
-import Control.Monad (guard)
+import Control.Monad (guard, join)
 import qualified Data.Vector as V
-import qualified Data.List.Split as LS
-import qualified Data.Char as CH
 
 data Matrix a =
   Matrix { flatten :: V.Vector a
@@ -27,19 +25,19 @@ column :: Int -> Matrix a -> V.Vector a
 column n x = do
   guard $ 0 <= n && n < cols x
   (i, y) <- V.imap f' $ flatten x
-  guard $ i `mod` (cols x) == n
+  guard $ i `mod` cols x == n
   return y
   where
-    f' i x = (i, x)
+    f' i y = (i, y)
 
 fromList :: [[a]] -> Matrix a
 fromList xss = let
-  cols = if null xss || null (head xss) then 0 else length $ head xss
-  rows = if cols == 0 then 0 else length xss
-  in Matrix (V.fromList $ xss >>= id) rows cols
+  cs = if null xss || null (head xss) then 0 else length $ head xss
+  rs = if cs == 0 then 0 else length xss
+  in Matrix (V.fromList $ join xss) rs cs
 
 fromString :: Read a => String -> Matrix a
-fromString = fromList . (map parse') . lines
+fromString = fromList . map parse' . lines
   where
     parse' s = case reads s of
                 [(x, xs)] -> x : parse' xs
@@ -51,8 +49,7 @@ reshape (r, c) x = x { rows = r, cols = c }
 row :: Int -> Matrix a -> V.Vector a
 row n x = do
   guard $ 0 <= n && n < rows x
-  y <- V.take (cols x) $ V.drop (n * cols x) $ flatten x
-  return y
+  V.take (cols x) $ V.drop (n * cols x) $ flatten x
 
 shape :: Matrix a -> (Int, Int)
 shape x = (rows x, cols x)
