@@ -2,14 +2,17 @@ import java.util.stream.IntStream;
 
 public final class Difference {
 
+    public static int square(int x) {
+        return x * x;
+    }
+
     public static int computeSquareOfSumTo(int n) {
-        final int sum = IntStream.rangeClosed(1, n).sum();
-        return sum * sum;
+        return square(IntStream.rangeClosed(1, n).sum());
     }
 
     public static int computeSumOfSquaresTo(int n) {
         return IntStream.rangeClosed(1, n)
-                .map(i-> i*i)
+                .map(Difference::square)
                 .sum();
     }
 
