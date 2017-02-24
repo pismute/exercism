@@ -1,12 +1,14 @@
 enum Signal {
-
-    WINK(0), DOUBLE_BLINK(1), CLOSE_YOUR_EYES(2), JUMP(3), REVERSE(4);
+    WINK(1),
+    DOUBLE_BLINK(2),
+    CLOSE_YOUR_EYES(2 << 1),
+    JUMP(2 << 2),
+    REVERSE(2 << 3);
 
     private final int code;
-
-
-    Signal(int radix) {
-        this.code = (int) Math.pow(2, radix);
+    
+    Signal(int code) {
+        this.code = code;
     }
 
     public int getCode() {
