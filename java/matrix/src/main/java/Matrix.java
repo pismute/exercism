@@ -35,7 +35,7 @@ public class Matrix {
 
     public static int[] parseLine(String xs) {
         return Arrays.stream(xs.split(" "))
-                .mapToInt(x -> x.charAt(0) - '0')
+                .mapToInt(Integer::parseInt)
                 .toArray();
     }
 
