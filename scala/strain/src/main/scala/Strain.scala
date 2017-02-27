@@ -4,8 +4,8 @@ object Strain {
       if( f(x) ) x +: ys else ys
     }
 
-  def not(x:Boolean) = !x
+  val not: Boolean => Boolean = !_
 
   def discard[A](xs : Seq[A], f: A => Boolean) =
-    keep(xs, (not _) compose f)
+    keep(xs, not compose f)
 }
