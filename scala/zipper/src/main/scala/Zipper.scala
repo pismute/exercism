@@ -58,24 +58,24 @@ object Zipper {
 
   // Set the value of the focus node.
   def setValue[A](v: A, zipper: Zipper[A]): Zipper[A] = {
-    val (BinTree(_, left, right), xs) = zipper
+    val (t, xs) = zipper
 
-    (BinTree(v, left, right), xs)
+    (t.copy(value = v), xs)
   }
 
   // Replace a left child tree.
   def setLeft[A](l: Option[BinTree[A]], zipper: Zipper[A]): Zipper[A] = {
-    val (BinTree(value, _, right), xs) = zipper
+    val (t, xs) = zipper
 
-    (BinTree(value, l, right), xs)
+    (t.copy(left = l), xs)
   }
 
 
   // Replace a right child tree.
   def setRight[A](r: Option[BinTree[A]], zipper: Zipper[A]): Zipper[A] = {
-    val (BinTree(value, left, _), xs) = zipper
+    val (t, xs) = zipper
 
-    (BinTree(value, left, r), xs)
+    (t.copy(right = r), xs)
   }
 }
 
