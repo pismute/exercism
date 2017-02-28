@@ -18,15 +18,12 @@ object Zipper {
   def fromTree[A](bt: BinTree[A]): Zipper[A] = (bt, Seq.empty)
 
   // Get the complete tree from a zipper.
+  @tailrec
   def toTree[A](zipper: Zipper[A]): BinTree[A] = {
-    @tailrec
-    def ups(z: Zipper[A]): BinTree[A] =
-      up(z) match {
-        case None => z._1
-        case Some(z) => ups(z)
-      }
+    val (t, xs) = zipper
 
-    ups(zipper)
+    if(xs.isEmpty) t
+    else toTree(up(zipper).get)
   }
 
   // Get the value of the focus node.
