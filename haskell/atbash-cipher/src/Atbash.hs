@@ -1,26 +1,18 @@
 module Atbash (decode, encode) where
 
+import Data.Maybe (mapMaybe)
 import qualified Data.Map as M
 import qualified Data.Char as C
 import qualified Data.List.Split as LS
 
-plain :: String
-plain = ['a'..'z']
-
 dic :: M.Map Char Char
-dic = M.fromList $ zip plain (reverse plain)
-
-findWithId :: (Ord a) => a -> M.Map a a -> a
-findWithId = M.findWithDefault <*> id
-
-isLetterOrNumber :: Char -> Bool
-isLetterOrNumber = (||) <$> C.isLetter <*> C.isNumber
+dic = M.fromList $ zip (alphas ++ numbers) ((reverse alphas) ++ numbers)
+  where
+    alphas = ['a'..'z']
+    numbers = ['0'..'9']
 
 decode :: String -> String
-decode = map (`findWithId` dic) . filter isLetterOrNumber
+decode = mapMaybe (`M.lookup` dic)
 
 encode :: String -> String
-encode = group' 5 . encode' . filter isLetterOrNumber
-  where
-    group' n = unwords . LS.chunksOf n
-    encode' = map ((`findWithId` dic) . C.toLower)
+encode = unwords . LS.chunksOf 5 . decode . map C.toLower
