@@ -4,8 +4,7 @@ object Isogram {
     val ys =
       xs.toLowerCase()
         .filter(_.isLetter)
-        .sorted
 
-    ys.distinct == ys
+    ys.distinct.size == ys.size
   }
 }
