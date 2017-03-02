@@ -7,10 +7,9 @@ object PerfectNumbers {
   import NumberType._
 
   def sumFactorsOf(n: Int) : Int =
-    (1 to math.sqrt(n).toInt)
+    (1 to n/2)
       .filter( n % _ == 0 )
-      .map( x => x + n/x)
-      .sum / 2
+      .sum
 
   def classify(n: Int) : NumberType =
     sumFactorsOf(n) match {
