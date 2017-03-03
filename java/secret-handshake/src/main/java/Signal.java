@@ -1,9 +1,9 @@
 enum Signal {
     WINK(1),
-    DOUBLE_BLINK(2),
-    CLOSE_YOUR_EYES(2 << 1),
-    JUMP(2 << 2),
-    REVERSE(2 << 3);
+    DOUBLE_BLINK(1 << 1),
+    CLOSE_YOUR_EYES(1 << 2),
+    JUMP(1 << 3),
+    REVERSE(1 << 4);
 
     private final int code;
     
