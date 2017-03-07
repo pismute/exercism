@@ -8,6 +8,8 @@ library:
   source-dirs: src
   dependencies:
     - split
+    - containers
+    - multiset
   # - foo       # List here the packages you
   # - bar       # want to use in your solution.
 

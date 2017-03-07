@@ -1,13 +1,11 @@
 module WordCount (wordCount) where
 
-import qualified Data.List as L
 import qualified Data.List.Split as LS
 import qualified Data.Char as C
+import qualified Data.MultiSet as MultiSet
 
 wordCount :: String -> [(String, Int)]
-wordCount xs = do
-  w <- L.group . L.sort . words' $ toLower' xs
-  return (head w, length w)
+wordCount xs = MultiSet.toOccurList . MultiSet.fromList . words' $ toLower' xs
   where
     toLower' = map C.toLower
     isWordChar' = (||) <$> (== '\'') <*> C.isAlphaNum
