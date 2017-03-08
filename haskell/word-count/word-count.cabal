@@ -15,6 +15,7 @@ library
     , split
     , containers
     , multiset
+    , text
   exposed-modules:
       WordCount
   other-modules:

@@ -2,10 +2,11 @@ module WordCount (wordCount) where
 
 import qualified Data.List.Split as LS
 import qualified Data.Char as C
+import qualified Data.Map as M
 import qualified Data.MultiSet as MultiSet
 
-wordCount :: String -> [(String, Int)]
-wordCount xs = MultiSet.toOccurList . MultiSet.fromList . words' $ toLower' xs
+wordCount :: String -> M.Map String Int
+wordCount xs = MultiSet.toMap . MultiSet.fromList . words' $ toLower' xs
   where
     toLower' = map C.toLower
     isWordChar' = (||) <$> (== '\'') <*> C.isAlphaNum
