@@ -12,7 +12,7 @@ public class Series {
 
     public List<Integer> getDigits() {
         return string.chars()
-                .map(x -> x - '0')
+                .map(Character::getNumericValue)
                 .mapToObj(Integer::valueOf)
                 .collect(Collectors.toList());
     }
