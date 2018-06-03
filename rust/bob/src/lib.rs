@@ -6,32 +6,26 @@
   * fn size_hint(&self)
 */
 
-fn is_silence(x: &String) -> bool {
+fn is_silence(x: &str) -> bool {
     x.is_empty()
 }
 
-fn is_yell(x: &String) -> bool {
-    let y = x.chars().filter(|z| z.is_alphabetic());
+fn is_yell(x: &str) -> bool {
+    let mut y = x.chars().filter(|z| z.is_alphabetic());
 
-    if y.is_empty() {
-        false
-    } else {
-        y.all(|z| z.is_uppercase())
-    }
+    y.any(|z| z.is_uppercase()) && !y.any(|z| z.is_lowercase())
 }
 
-fn is_question(x: &String) -> bool {
+fn is_question(x: &str) -> bool {
     x.ends_with("?")
 }
 
 pub fn reply(message: &str) -> &str {
-    let mut x = String::from(message.trim());
+    let x = message.trim();
 
     if is_silence(&x) {
         "Fine. Be that way!"
     } else if is_question(&x) {
-        x.pop();
-
         if is_yell(&x) {
             "Calm down, I know what I'm doing!"
         } else {
