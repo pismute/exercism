@@ -1,11 +1,3 @@
-/*
-  Why is iterator's signiture different? `&mut self` vs `self` vs `&self`:
-
-  * fn next(&mut self)
-  * fn count(self)
-  * fn size_hint(&self)
-*/
-
 fn is_silence(x: &str) -> bool {
     x.is_empty()
 }
