@@ -10,22 +10,14 @@ module BST
     , toList
     ) where
 
-data BST a = Empty | Node a (BST a) (BST a)  deriving (Eq, Show)
-
-bstLeft :: BST a -> Maybe (BST a)
-bstLeft Empty = Nothing
-bstLeft (Node _ l _) = Just l
-
-bstRight :: BST a -> Maybe (BST a)
-bstRight Empty = Nothing
-bstRight (Node _ _ r) = Just r
-
-bstValue :: BST a -> Maybe a
-bstValue Empty = Nothing
-bstValue (Node x _ _) = Just x
+data BST a = BST
+  { bstValue :: Maybe a
+  , bstLeft :: Maybe (BST a)
+  , bstRight :: Maybe (BST a)
+  } deriving (Eq, Show)
 
 empty :: BST a
-empty = Empty
+empty = BST None None None
 
 fromList :: Ord a => [a] -> BST a
 fromList = foldr insert Empty
@@ -37,7 +29,7 @@ insert x (Node y l r)
   | otherwise = Node y l (insert x r)
 
 singleton :: a -> BST a
-singleton x = Node x Empty Empty
+singleton x = Bst (Just x) empty empty
 
 toList :: BST a -> [a]
 toList Empty = []
