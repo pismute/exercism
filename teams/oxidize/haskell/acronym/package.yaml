@@ -1,0 +1,21 @@
+name: acronym
+version: 1.6.0.9
+
+dependencies:
+  - base
+
+library:
+  exposed-modules: Acronym
+  source-dirs: src
+  ghc-options: -Wall
+  dependencies:
+    - containers
+    - split
+
+tests:
+  test:
+    main: Tests.hs
+    source-dirs: test
+    dependencies:
+      - acronym
+      - hspec
