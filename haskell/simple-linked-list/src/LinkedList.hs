@@ -10,7 +10,7 @@ module LinkedList
     , toList
     ) where
 
-data LinkedList a = a :> LinkedList a | Nil
+data LinkedList a = a :> LinkedList a | Nil deriving(Show, Eq)
 
 instance Foldable LinkedList where
    foldMap _ Nil = mempty

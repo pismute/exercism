@@ -27,6 +27,23 @@ direction it is pointing.
 - Say a robot starts at {7, 3} facing north. Then running this stream
   of instructions should leave it at {9, 4} facing west.
 
+## Hints
+
+To complete this exercise, you need to create the data type `Robot`,
+and implement the following functions:
+
+- `bearing`
+- `coordinates`
+- `mkRobot`
+- `simulate`
+- `turnLeft`
+- `turnRight`
+
+You will find a dummy data declaration and type signatures already in place,
+but it is up to you to define the functions and create a meaningful data type,
+newtype or type synonym.
+
+
 
 ## Getting Started
 
@@ -74,32 +91,15 @@ stack ghci
 
 ## Feedback, Issues, Pull Requests
 
-The [exercism/xhaskell](https://github.com/exercism/xhaskell) repository on
+The [exercism/haskell](https://github.com/exercism/haskell) repository on
 GitHub is the home for all of the Haskell exercises.
 
 If you have feedback about an exercise, or want to help implementing a new
 one, head over there and create an issue.  We'll do our best to help you!
 
-## Hints
-
-To complete this exercise, you need to create the data type `Robot`,
-and implement the following functions:
-
-- `bearing`
-- `coordinates`
-- `mkRobot`
-- `simulate`
-- `turnLeft`
-- `turnRight`
-
-You will find a dummy data declaration and type signatures already in place,
-but it is up to you to define the functions and create a meaningful data type,
-newtype or type synonym.
-
 ## Source
 
 Inspired by an interview question at a famous company.
 
-## Submitting Incomplete Problems
+## Submitting Incomplete Solutions
 It's possible to submit an incomplete solution so you can see how others have completed the exercise.
-

@@ -10,13 +10,11 @@ main :: IO ()
 main = hspecWith defaultConfig {configFastFail = True} specs
 
 specs :: Spec
-specs = describe "atbash-cipher" $ do
+specs = do
           describe "encode" $ for_ encodeCases $ test encode
           describe "decode" $ for_ decodeCases $ test decode
   where
     test f Case{..} = it description $ f phrase `shouldBe` expected
-
--- Test cases adapted from `exercism/x-common/atbash-cipher.json` on 2017-02-01.
 
 data Case = Case { description :: String
                  , phrase      :: String
@@ -76,5 +74,13 @@ decodeCases =
     , Case { description = "decode all the letters"
            , phrase      = "gsvjf rxpyi ldmul cqfnk hlevi gsvoz abwlt"
            , expected    = "thequickbrownfoxjumpsoverthelazydog"
+           }
+    , Case { description = "decode with too many spaces"
+           , phrase      = "vc vix    r hn"
+           , expected    = "exercism"
+           }
+    , Case { description = "decode with no spaces"
+           , phrase      = "zmlyhgzxovrhlugvmzhgvkkrmthglmv"
+           , expected    = "anobstacleisoftenasteppingstone"
            }
     ]

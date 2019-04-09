@@ -1,15 +1,19 @@
-module Series (largestProduct) where
+module Series (Error(..), largestProduct) where
 
-import Control.Monad (guard)
 import Data.List.Split (divvy)
 import qualified Data.Char as C
+import qualified Data.List as L
 
-largestProduct :: Int -> String -> Maybe Integer
-largestProduct n xs = do
-  guard $ n >= 0
-  guard $ n <= length xs
-  guard $ all C.isDigit xs
-  return $ maximum . products' n $ toIntegers' xs
+data Error = InvalidSpan | InvalidDigit Char deriving (Show, Eq)
+
+largestProduct :: Int -> String -> Either Error Integer
+largestProduct n xs =
+  (if n >= 0 then Right undefined else Left InvalidSpan)
+  >> (if n <= length xs then Right undefined else Left InvalidSpan)
+  >> (case L.find (not . C.isDigit) xs of
+        Nothing -> Right undefined
+        Just x -> Left $ InvalidDigit x)
+  >> (Right $ maximum . products' n $ toIntegers' xs)
   where
     toIntegers' = map (toInteger . C.digitToInt)
     products' _ [] = [1]

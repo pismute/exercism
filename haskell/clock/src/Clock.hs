@@ -1,4 +1,4 @@
-module Clock (clockHour, clockMin, fromHourMin, toString) where
+module Clock (clockHour, clockMin, fromHourMin, toString, addDelta) where
 
 
 import Text.Printf (printf)
@@ -37,3 +37,7 @@ fromHourMin h m = let
 
 toString :: Clock -> String
 toString x = printf "%02d:%02d" (clockHour x) (clockMin x)
+
+
+addDelta :: Int -> Int -> Clock -> Clock
+addDelta h m clock = clock + (fromHourMin h m)

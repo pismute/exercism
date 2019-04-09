@@ -1,17 +1,23 @@
-module Sublist (Sublist(..), sublist) where
+module Sublist (sublist) where
 
 -- The task is to create the data type `Sublist`, with `Eq` and
 -- `Show` instances, and implement the function `sublist`.
 
-import Data.List
+import qualified Data.List as L
+--import qualified Data.List.Split as LS
 
-data Sublist = Equal | Sublist | Superlist | Unequal deriving(Eq, Show)
-
+sublist :: Eq a => [a] -> [a] -> Maybe Ordering
 sublist sub super
-        | sub == super = Equal
-        | isSublist sub super = Sublist
-        | isSublist super sub = Superlist
-        | otherwise = Unequal
+        | sub == super = Just EQ
+        | isSublist sub super = Just LT
+        | isSublist super sub = Just GT
+        | otherwise = Nothing
         where
-          sliding n = map (take n) . tails
-          isSublist sub = any (==sub) . sliding (length sub)
+          -- this one is too slow
+          -- sliding'' n = LS.divvy n 1
+
+          -- sliding' n = LS.chop (\xs -> (take n xs , drop 1 xs))
+
+          sliding n = map (take n) . L.tails
+
+          isSublist xs = any (==xs) . sliding (length xs)

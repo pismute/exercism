@@ -1,6 +1,7 @@
 # Grade School
 
-Write a small archiving program that stores students' names along with the grade that they are in.
+Given students' names along with the grade that they are in, create a roster
+for the school.
 
 In the end, you should be able to:
 
@@ -20,7 +21,6 @@ In the end, you should be able to:
 Note that all our students only have one name.  (It's a small town, what
 do you want?)
 
-
 ## For bonus points
 
 Did you get the tests passing and the code clean? If you want to, these
@@ -33,6 +33,21 @@ are some additional things you could try:
 
 Then please share your thoughts in a comment on the submission. Did this
 experiment make the code better? Worse? Did you learn anything from it?
+
+## Hints
+
+To complete this exercise you need to create the data type `School`
+and implement the following functions:
+
+- `add`
+- `empty`
+- `grade`
+- `sorted`
+
+You will find a dummy data declaration and type signatures already in
+place, but it is up to you to define the functions and create a meaningful
+data type, newtype or type synonym.
+
 
 
 ## Getting Started
@@ -81,26 +96,15 @@ stack ghci
 
 ## Feedback, Issues, Pull Requests
 
-The [exercism/xhaskell](https://github.com/exercism/xhaskell) repository on
+The [exercism/haskell](https://github.com/exercism/haskell) repository on
 GitHub is the home for all of the Haskell exercises.
 
 If you have feedback about an exercise, or want to help implementing a new
 one, head over there and create an issue.  We'll do our best to help you!
 
-## Hints
-
-To complete this exercise you need to create the data type `School`
-and implement the following functions:
-
-- `add`
-- `empty`
-- `grade`
-- `sorted`
-
 ## Source
 
 A pairing session with Phil Battos at gSchool [http://gschool.it](http://gschool.it)
 
-## Submitting Incomplete Problems
+## Submitting Incomplete Solutions
 It's possible to submit an incomplete solution so you can see how others have completed the exercise.
-

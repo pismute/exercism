@@ -14,8 +14,7 @@ main :: IO ()
 main = hspecWith defaultConfig {configFastFail = True} specs
 
 specs :: Spec
-specs = describe "word-count" $
-          describe "wordCount" $ for_ cases test
+specs = describe "wordCount" $ for_ cases test
   where
     -- Here we used `fromIntegral`, `fromList` and `toList` to generalize
     -- the tests, accepting any function that receives a string-like argumment
@@ -29,8 +28,6 @@ specs = describe "word-count" $
                    . wordCount
                    . fromList
                    $ input
-
--- Test cases adapted from `exercism/x-common/word-count` on 2016-11-06.
 
 data Case = Case { description :: String
                  , input       :: String
@@ -103,5 +100,18 @@ cases = [ Case { description = "count one word"
                                , ("between", 1)
                                , ("large"  , 2)
                                , ("and"    , 1) ]
+               }
+        , Case { description = "multiple spaces not detected as a word"
+               , input       = " multiple   whitespaces"
+               , expected    = [ ("multiple"   , 1)
+                               , ("whitespaces", 1)
+                               ]
+               }
+        , Case { description = "alternating word separators not detected as a word"
+               , input       = ",\n,one,\n ,two \n 'three'"
+               , expected    = [ ("one",   1)
+                               , ("two",   1)
+                               , ("three", 1)
+                               ]
                }
         ]

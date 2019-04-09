@@ -17,15 +17,12 @@ main :: IO ()
 main = hspecWith defaultConfig {configFastFail = True} specs
 
 specs :: Spec
-specs = describe "triangle" $
-          describe "triangleType" $ for_ cases test
+specs = describe "triangleType" $ for_ cases test
   where
 
     test (description, (a, b, c), expected) = it description assertion
       where
         assertion = triangleType a b c `shouldBe` expected
-
-    -- Test cases adapted from `exercism/x-common/triangle.json` on 2016-08-03.
 
     cases = [ ( "equilateral triangle has all sides equal"
               , (2, 2, 2)
@@ -53,6 +50,10 @@ specs = describe "triangle" $
               )
             , ( "scalene triangle has no equal sides"
               , (3, 4, 5)
+              , Scalene
+              )
+            , ( "2a == b+c looks like equilateral, but isn't always"
+              , (5, 4, 6)
               , Scalene
               )
             , ( "larger scalene triangle"

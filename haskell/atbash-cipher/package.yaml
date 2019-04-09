@@ -1,14 +1,16 @@
 name: atbash-cipher
+version: 1.2.0.6
 
 dependencies:
   - base
+  - containers
+  - split
 
 library:
   exposed-modules: Atbash
   source-dirs: src
-  dependencies:
-    - containers
-    - split
+  ghc-options: -Wall
+  # dependencies:
   # - foo       # List here the packages you
   # - bar       # want to use in your solution.
 

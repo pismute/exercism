@@ -1,10 +1,34 @@
 # Anagram
 
-Write a program that, given a word and a list of possible anagrams, selects the correct sublist.
+Given a word and a list of possible anagrams, select the correct sublist.
 
 Given `"listen"` and a list of candidates like `"enlists" "google"
 "inlets" "banana"` the program should return a list containing
 `"inlets"`.
+
+## Hints
+
+To complete this exercise you need to implement the function `anagramsFor`,
+that takes a *word* and a group of *words*, returning the ones that are
+anagrams of the given *word*.
+
+If it is your first time solving this exercise, it is recommended that you
+stick to the provided signature:
+
+```haskell
+anagramsFor :: String -> [String] -> [String]
+```
+
+Later, it may be a good idea to revisit this problem and play with other data
+types and libraries:
+
+- `Text`, from package *text*.
+- `Sequence` and `Set`, from package *containers*.
+- `MultiSet`, from package *multiset*
+
+The test suite was intentionally designed to accept almost any type signature
+that makes sense, so you are encouraged to find the one you think is the best.
+
 
 
 ## Getting Started
@@ -53,39 +77,15 @@ stack ghci
 
 ## Feedback, Issues, Pull Requests
 
-The [exercism/xhaskell](https://github.com/exercism/xhaskell) repository on
+The [exercism/haskell](https://github.com/exercism/haskell) repository on
 GitHub is the home for all of the Haskell exercises.
 
 If you have feedback about an exercise, or want to help implementing a new
 one, head over there and create an issue.  We'll do our best to help you!
 
-## Hints
-
-To complete this exercise you need to implement the function `anagramsFor`,
-that takes a *word* and a group of *words*, returning the ones that are
-anagrams of the given *word*.
-
-If it is your first time solving this exercise, it is recommended that you
-stick to the provided signature:
-
-```haskell
-anagramsFor :: String -> [String] -> [String]
-```
-
-Later, it may be a good idea to revisit this problem and play with other data
-types and libraries:
-
-- `Text`, from package *text*.
-- `Sequence` and `Set`, from package *containers*.
-- `MultiSet`, from package *multiset*
-
-The test suite was intentionally designed to accept almost any type signature
-that makes sense, so you are encouraged to find the one you think is the best.
-
 ## Source
 
 Inspired by the Extreme Startup game [https://github.com/rchatley/extreme_startup](https://github.com/rchatley/extreme_startup)
 
-## Submitting Incomplete Problems
+## Submitting Incomplete Solutions
 It's possible to submit an incomplete solution so you can see how others have completed the exercise.
-

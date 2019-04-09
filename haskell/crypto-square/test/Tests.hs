@@ -12,8 +12,7 @@ main :: IO ()
 main = hspecWith defaultConfig {configFastFail = True} specs
 
 specs :: Spec
-specs = describe "crypto-square" $
-          describe "encode" $ for_ cases test
+specs = describe "encode" $ for_ cases test
   where
 
     test Case{..} = describe description $ do
@@ -26,28 +25,38 @@ specs = describe "crypto-square" $
       it "reorders the characters" $ encode input `shouldMatchString` expected
       it "groups the output"       $ encode input `shouldMatchWords`  expected
 
--- Test cases created from scratch on 2016-10-05, diverging from `x-common`.
-
 data Case = Case { description :: String
                  , input       :: String
                  , expected    :: String
                  }
 
 cases :: [Case]
-cases = [ Case { description = "perfect square, all lowercase with space"
-               , input       = "a dog"
-               , expected    = "ao dg"
+cases = [ Case { description = "empty plaintext results in an empty ciphertext"
+               , input       = ""
+               , expected    = ""
                }
-        , Case { description = "perfect rectangle, mixed case"
-               , input       = "A camel"
-               , expected    = "am ce al"
+        , Case { description = "Lowercase"
+               , input       = "A"
+               , expected    = "a"
                }
-        , Case { description = "incomplete square with punctuation"
-p               , input       = "Wait, fox!"
-               , expected    = "wtx af io"
+        , Case { description = "Remove spaces"
+               , input       = "  b "
+               , expected    = "b"
                }
-        , Case { description = "incomplete rectangle with symbols"
-               , input       = "cat | cut -d@ -f1 | sort | uniq"
-               , expected    = "ctoi adrq tft c1u usn"
+        , Case { description = "Remove punctuation"
+               , input       = "@1,%!"
+               , expected    = "1"
+               }
+        , Case { description = "9 character plaintext results in 3 chunks of 3 characters"
+               , input       = "This is fun!"
+               , expected    = "tsf hiu isn"
+               }
+        , Case { description = "8 character plaintext results in 3 chunks, the last one with a trailing space"
+               , input       = "Chill out."
+               , expected    = "clu hlt io "
+               }
+        , Case { description = "54 character plaintext results in 7 chunks, the last two padded with spaces"
+               , input       = "If man was meant to stay on the ground, god would have given us roots."
+               , expected    = "imtgdvs fearwer mayoogo anouuio ntnnlvt wttddes aohghn  sseoau "
                }
         ]

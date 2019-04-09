@@ -1,15 +1,19 @@
--- This file has been generated from package.yaml by hpack version 0.15.0.
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.1.
 --
 -- see: https://github.com/sol/hpack
+--
+-- hash: 7a533442b7d25261eb0d6c3231cb47bb510f01ac69ffbf910dbf2ea48bb07a48
 
 name:           pascals-triangle
-version:        0.0.0
+version:        1.5.0.9
 build-type:     Simple
-cabal-version:  >= 1.10
 
 library
   hs-source-dirs:
       src
+  ghc-options: -Wall
   build-depends:
       base
     , split
@@ -22,10 +26,13 @@ library
 test-suite test
   type: exitcode-stdio-1.0
   main-is: Tests.hs
+  other-modules:
+      Paths_pascals_triangle
   hs-source-dirs:
       test
   build-depends:
       base
-    , pascals-triangle
     , hspec
+    , pascals-triangle
+    , split
   default-language: Haskell2010

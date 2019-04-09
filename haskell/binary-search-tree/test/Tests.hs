@@ -1,4 +1,4 @@
-import Test.Hspec        (Spec, describe, it, shouldBe)
+import Test.Hspec        (Spec, it, shouldBe)
 import Test.Hspec.Runner (configFastFail, defaultConfig, hspecWith)
 
 import BST
@@ -16,10 +16,7 @@ main :: IO ()
 main = hspecWith defaultConfig {configFastFail = True} specs
 
 specs :: Spec
-specs = describe "binary-seach-tree" $ do
-
-    -- As of 2016-08-03, there was no reference file
-    -- for the test cases in `exercism/x-common`.
+specs = do
 
     let int4   = 4  ::  Int
     let noInts = [] :: [Int]
@@ -70,6 +67,9 @@ specs = describe "binary-seach-tree" $ do
 
     it "iterating over smaller element" $
       toList (fromList [int4, 2]) `shouldBe` [2, 4]
+
+    it "iterating over equal element" $
+      toList (fromList [int4, 4]) `shouldBe` [4, 4]
 
     it "iterating over larger element" $
       toList (fromList [int4, 5]) `shouldBe` [4, 5]

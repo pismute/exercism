@@ -1,16 +1,17 @@
 name: word-count
+version: 1.3.0.7
 
 dependencies:
   - base
+  - containers
+  - split
+  - multiset
 
 library:
   exposed-modules: WordCount
   source-dirs: src
-  dependencies:
-    - split
-    - containers
-    - multiset
-    - text
+  ghc-options: -Wall
+  # dependencies:
   # - foo       # List here the packages you
   # - bar       # want to use in your solution.
 

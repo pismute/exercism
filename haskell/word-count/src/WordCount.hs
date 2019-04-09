@@ -10,8 +10,8 @@ wordCount xs = MultiSet.toMap . MultiSet.fromList . words' $ toLower' xs
   where
     toLower' = map C.toLower
     isWordChar' = (||) <$> (== '\'') <*> C.isAlphaNum
-    drop' x =
-      if head x == '\'' && last x == '\''
-        then init $ tail x
-        else x
+    drop' ys =
+      if head ys == '\'' && last ys == '\''
+        then init $ tail ys
+        else ys
     words' = map drop' <$> LS.wordsBy (not . isWordChar')

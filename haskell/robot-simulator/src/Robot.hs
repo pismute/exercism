@@ -3,9 +3,7 @@ module Robot
     , bearing
     , coordinates
     , mkRobot
-    , simulate
-    , turnLeft
-    , turnRight
+    , move
     ) where
 
 prev :: (Eq a, Enum a, Bounded a) => a -> a
@@ -37,8 +35,8 @@ turnLeft = prev
 turnRight :: Bearing -> Bearing
 turnRight = next
 
-simulate :: Robot -> String -> Robot
-simulate = foldl (flip moveOn)
+move :: Robot -> String -> Robot
+move = foldl (flip moveOn)
   where
     advance North x y = (x, y+1)
     advance East x y = (x+1, y)
@@ -47,9 +45,9 @@ simulate = foldl (flip moveOn)
 
     turn robot f = robot { bearing = f $ bearing robot }
 
-    move robot f = robot { coordinates = f $ coordinates robot }
+    move' robot f = robot { coordinates = f $ coordinates robot }
 
     moveOn 'L' robot = robot `turn` turnLeft
     moveOn 'R' robot = robot `turn` turnRight
-    moveOn 'A' robot = robot `move` uncurry (advance $ bearing robot)
+    moveOn 'A' robot = robot `move'` uncurry (advance $ bearing robot)
     moveOn _ _ = error "unexpected case"

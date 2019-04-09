@@ -22,4 +22,5 @@ song = sing 99
         else let it = one n in
           "Take " `it` " down and pass it around, " ++ (n-1) `bottles` " of beer on the wall.\n"
 
+    sing :: Int -> String
     sing n = L.intercalate "\n" $ (capitalize . bottlesOfBeer) <$> [n, n-1..0]

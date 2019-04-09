@@ -16,6 +16,7 @@ data Plant = Clover
            | Violets
            deriving (Eq, Show)
 
+toPlant :: Char -> Plant
 toPlant x
   | x == 'C' = Clover
   | x == 'G' = Grass
@@ -23,8 +24,10 @@ toPlant x
   | x == 'V' = Violets
   | otherwise = error $ x : ": unknown plant"
 
+toPlants :: [Char] -> [Plant]
 toPlants = map toPlant
 
+defaultStudents :: [String]
 defaultStudents =
     ["Alice", "Bob", "Charlie", "David",
      "Eve", "Fred", "Ginny", "Harriet",

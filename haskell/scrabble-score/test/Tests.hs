@@ -11,7 +11,7 @@ main :: IO ()
 main = hspecWith defaultConfig {configFastFail = True} specs
 
 specs :: Spec
-specs = describe "scrabble-score" $ do
+specs = do
           describe "scoreLetter" $ do
             it "'a'" $ scoreLetter 'a' `shouldBe`  1
             it "'Z'" $ scoreLetter 'Z' `shouldBe` 10
@@ -22,8 +22,6 @@ specs = describe "scrabble-score" $ do
     test Case{..} = it description assertion
       where
         assertion = scoreWord input `shouldBe` fromIntegral expected
-
--- Test cases adapted from `exercism/x-common/scrabble-score.json` on 2016-07-26.
 
 data Case = Case { description :: String
                  , input       :: String
@@ -67,12 +65,12 @@ cases = [ Case { description = "lowercase letter"
                , input       = "pinata"
                , expected    = 8
                }
-        , Case { description = "non-english letter is not scored"
-               , input       = "piñata"
-               , expected    = 7
-               }
         , Case { description = "empty input"
                , input       = ""
                , expected    = 0
+               }
+        , Case { description = "entire alphabet available"
+               , input       = "abcdefghijklmnopqrstuvwxyz"
+               , expected    = 87
                }
         ]

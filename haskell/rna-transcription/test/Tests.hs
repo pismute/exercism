@@ -10,49 +10,50 @@ main :: IO ()
 main = hspecWith defaultConfig {configFastFail = True} specs
 
 specs :: Spec
-specs = describe "rna-transcription" $
-          describe "toRNA" $ for_ cases test
+specs = describe "toRNA" $ for_ cases test
   where
     test Case{..} = it description $ toRNA dna `shouldBe` expected
 
--- Test cases adapted from `exercism/x-common/rna-transcription.json` on 2016-07-24.
-
-data Case = Case { description ::       String
-                 , dna         ::       String
-                 , expected    :: Maybe String
+data Case = Case { description :: String
+                 , dna         :: String
+                 , expected    :: Either Char String
                  }
 
 cases :: [Case]
-cases = [ Case { description = "rna complement of cytosine is guanine"
-               , dna         =      "C"
-               , expected    = Just "G"
+cases = [ Case { description = "Empty RNA sequence"
+               , dna         = ""
+               , expected    = Right ""
                }
-        , Case { description = "rna complement of guanine is cytosine"
-               , dna         =      "G"
-               , expected    = Just "C"
+        , Case { description = "RNA complement of cytosine is guanine"
+               , dna         = "C"
+               , expected    = Right "G"
                }
-        , Case { description = "rna complement of thymine is adenine"
-               , dna         =      "T"
-               , expected    = Just "A"
+        , Case { description = "RNA complement of guanine is cytosine"
+               , dna         = "G"
+               , expected    = Right "C"
                }
-        , Case { description = "rna complement of adenine is uracil"
-               , dna         =      "A"
-               , expected    = Just "U"
+        , Case { description = "RNA complement of thymine is adenine"
+               , dna         = "T"
+               , expected    = Right "A"
                }
-        , Case { description = "rna complement"
-               , dna         =      "ACGTGGTCTTAA"
-               , expected    = Just "UGCACCAGAAUU"
+        , Case { description = "RNA complement of adenine is uracil"
+               , dna         = "A"
+               , expected    = Right "U"
                }
-        , Case { description = "dna correctly handles invalid input"
+        , Case { description = "RNA complement"
+               , dna         = "ACGTGGTCTTAA"
+               , expected    = Right "UGCACCAGAAUU"
+               }
+        , Case { description = "correctly handles invalid input (RNA instead of DNA)"
                , dna         = "U"
-               , expected    = Nothing
+               , expected    = Left 'U'
                }
-        , Case { description = "dna correctly handles completely invalid input"
+        , Case { description = "correctly handles completely invalid DNA input"
                , dna         = "XXX"
-               , expected    = Nothing
+               , expected    = Left 'X'
                }
-        , Case { description = "dna correctly handles partially invalid input"
+        , Case { description = "correctly handles partially invalid DNA input"
                , dna         = "ACGTXXXCTTAA"
-               , expected    = Nothing
+               , expected    = Left 'X'
                }
         ]

@@ -11,8 +11,7 @@ main :: IO ()
 main = hspecWith defaultConfig {configFastFail = True} specs
 
 specs :: Spec
-specs = describe "meetup" $
-          describe "meetupDay" $ for_ cases test
+specs = describe "meetupDay" $ for_ cases test
   where
 
     test Case{..} = it description assertion
@@ -20,8 +19,6 @@ specs = describe "meetup" $
         assertion   = returnedDay `shouldBe` expectedDay
         returnedDay = meetupDay week dayofweek year month
         expectedDay = fromGregorian year month dayofmonth
-
--- Test cases adapted from `exercism/x-common/meetup.json` on 2016-07-26.
 
 data Case = Case { description :: String
                  , year        :: Integer

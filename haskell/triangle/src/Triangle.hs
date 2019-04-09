@@ -8,10 +8,12 @@ data TriangleType = Equilateral
                   | Illegal
                   deriving (Eq, Show)
 
+triangleType :: (Ord a, Num a) => a -> a -> a -> TriangleType
 triangleType a b c = whichType $ L.sort [a, b, c]
   where
-   whichType [a, b, c]
-      | a <= 0 || a + b < c = Illegal
-      | a == b && b == c = Equilateral
-      | a == b || b == c = Isosceles
+   whichType [a', b', c']
+      | a' <= 0 || a' + b' < c' = Illegal
+      | a' == b' && b' == c' = Equilateral
+      | a' == b' || b' == c' = Isosceles
       | otherwise = Scalene
+   whichType _ = undefined

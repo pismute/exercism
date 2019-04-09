@@ -1,15 +1,19 @@
--- This file has been generated from package.yaml by hpack version 0.15.0.
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.1.
 --
 -- see: https://github.com/sol/hpack
+--
+-- hash: 16c05557776c0ad828a0b570d050d5a1828a270c5750314493ba78daa89abfd6
 
 name:           crypto-square
-version:        0.0.0
+version:        3.2.0.6
 build-type:     Simple
-cabal-version:  >= 1.10
 
 library
   hs-source-dirs:
       src
+  ghc-options: -Wall
   build-depends:
       base
     , split
@@ -22,6 +26,8 @@ library
 test-suite test
   type: exitcode-stdio-1.0
   main-is: Tests.hs
+  other-modules:
+      Paths_crypto_square
   hs-source-dirs:
       test
   build-depends:

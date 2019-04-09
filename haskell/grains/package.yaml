@@ -1,4 +1,5 @@
 name: grains
+version: 1.2.0.6
 
 dependencies:
   - base
@@ -6,7 +7,8 @@ dependencies:
 library:
   exposed-modules: Grains
   source-dirs: src
-  dependencies:
+  ghc-options: -Wall
+  # dependencies:
   # - foo       # List here the packages you
   # - bar       # want to use in your solution.
 

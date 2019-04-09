@@ -1,13 +1,15 @@
 name: pascals-triangle
+version: 1.5.0.9
 
 dependencies:
   - base
+  - split
 
 library:
   exposed-modules: Triangle
   source-dirs: src
-  dependencies:
-    - split
+  ghc-options: -Wall
+  # dependencies:
   # - foo       # List here the packages you
   # - bar       # want to use in your solution.
 

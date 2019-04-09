@@ -11,8 +11,7 @@ main :: IO ()
 main = hspecWith defaultConfig {configFastFail = True} specs
 
 specs :: Spec
-specs = describe "sieve" $
-          describe "primesUpTo" $ for_ cases test
+specs = describe "primesUpTo" $ for_ cases test
   where
 
     test Case{..} = it description assertion
@@ -20,8 +19,6 @@ specs = describe "sieve" $
         assertion = primesUpTo (fromIntegral limit)
                     `shouldBe`
                     fromIntegral <$> expected
-
--- Test cases adapted from `exercism/x-common` on 2016-09-12.
 
 data Case = Case { description ::  String
                  , limit       ::  Integer

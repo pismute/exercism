@@ -1,5 +1,5 @@
 import Control.Arrow     ((&&&))
-import Test.Hspec        (Spec, describe, it, shouldBe, shouldNotBe)
+import Test.Hspec        (Spec, it, shouldBe, shouldNotBe)
 import Test.Hspec.Runner (configFastFail, defaultConfig, hspecWith)
 
 import qualified Data.Vector as Vector (fromList)
@@ -22,27 +22,36 @@ main :: IO ()
 main = hspecWith defaultConfig {configFastFail = True} specs
 
 specs :: Spec
-specs = describe "matrix" $ do
-
-    -- As of 2016-08-08, there was no reference file
-    -- for the test cases in `exercism/x-common`.
+specs = do
 
     let intMatrix = fromString :: String -> Matrix Int
     let vector = Vector.fromList
 
-    it "extract first row" $ do
-      row 0 (intMatrix "1 2\n10 20") `shouldBe` vector [1, 2]
-      row 0 (intMatrix "9 7\n8 6"  ) `shouldBe` vector [9, 7]
+    it "extract row from one number matrix" $
+      row 0 (intMatrix "1") `shouldBe` vector [1]
 
-    it "extract second row" $ do
-      row 1 (intMatrix "9 8 7\n19 18 17") `shouldBe` vector [19, 18, 17]
-      row 1 (intMatrix "1 4 9\n16 25 36") `shouldBe` vector [16, 25, 36]
+    it "can extract row" $
+      row 1 (intMatrix "1 2\n3 4") `shouldBe` vector [3, 4]
 
-    it "extract first column" $ do
-      column 0 (intMatrix "1 2 3\n4 5 6\n7 8 9\n 8 7 6")
-        `shouldBe` vector [1, 4, 7, 8]
-      column 1 (intMatrix "89 1903 3\n18 3 1\n9 4 800")
-        `shouldBe` vector [1903, 3, 4]
+    it "extract row where numbers have different widths" $
+      row 1 (intMatrix "1 2\n10 20") `shouldBe` vector [10, 20]
+
+    it "can extract row from non-square matrix" $
+      row 2 (intMatrix "1 2 3\n4 5 6\n7 8 9\n8 7 6") `shouldBe` vector [7, 8, 9]
+
+    it "extract column from one number matrix" $
+      column 0 (intMatrix "1") `shouldBe` vector [1]
+
+    it "can extract column" $
+      column 2 (intMatrix "1 2 3\n4 5 6\n7 8 9") `shouldBe` vector [3, 6, 9]
+
+    it "can extract column from non-square matrix" $
+      column 2 (intMatrix "1 2 3\n4 5 6\n7 8 9\n8 7 6") `shouldBe` vector [3, 6, 9, 6]
+
+    it "extract column where numbers have different widths" $
+      column 1 (intMatrix "89 1903 3\n18 3 1\n9 4 800") `shouldBe` vector [1903, 3, 4]
+
+    -- Track-specific tests:
 
     it "shape" $ do
       shape (intMatrix ""        ) `shouldBe` (0, 0)
@@ -72,16 +81,3 @@ specs = describe "matrix" $ do
 
     it "flatten" $
       flatten (intMatrix "1 2\n3 4") `shouldBe` vector [1, 2, 3, 4]
-
-    it "matrix of chars" $
-      fromString "'f' 'o' 'o'\n'b' 'a' 'r'" `shouldBe` fromList ["foo", "bar"]
-
-    it "matrix of strings" $ 
-       fromString "\"this one\"\n\"may be tricky!\""
-       `shouldBe` fromList [ ["this one"      ]
-                           , ["may be tricky!"] ]
-
-    it "matrix of strings 2" $ 
-       fromString "\"this one\" \"one\" \n\"may be tricky!\" \"really tricky\""
-       `shouldBe` fromList [ ["this one"      , "one"          ]
-                           , ["may be tricky!", "really tricky"] ]

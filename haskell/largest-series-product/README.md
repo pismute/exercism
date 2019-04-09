@@ -1,6 +1,7 @@
 # Largest Series Product
 
-Given a string of digits, calculate the largest product for a contiguous substring of digits of length n.
+Given a string of digits, calculate the largest product for a contiguous
+substring of digits of length n.
 
 For example, for the input `'1027839564'`, the largest product for a
 series of 3 digits is 270 (9 * 5 * 6), and the largest product for a
@@ -59,7 +60,7 @@ stack ghci
 
 ## Feedback, Issues, Pull Requests
 
-The [exercism/xhaskell](https://github.com/exercism/xhaskell) repository on
+The [exercism/haskell](https://github.com/exercism/haskell) repository on
 GitHub is the home for all of the Haskell exercises.
 
 If you have feedback about an exercise, or want to help implementing a new
@@ -69,6 +70,5 @@ one, head over there and create an issue.  We'll do our best to help you!
 
 A variation on Problem 8 at Project Euler [http://projecteuler.net/problem=8](http://projecteuler.net/problem=8)
 
-## Submitting Incomplete Problems
+## Submitting Incomplete Solutions
 It's possible to submit an incomplete solution so you can see how others have completed the exercise.
-

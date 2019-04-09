@@ -7,4 +7,4 @@ sumOfMultiples xs limit =
   sum . nub $ xs >>= multiples
   where
     multiples x =
-      (filter (/=limit) . map (*x)) [1..(limit `div` x)]
+      (filter (/=limit) . map (*x)) [1..(if x == 0 then 0 else limit `div` x)]

@@ -10,7 +10,7 @@ main :: IO ()
 main = hspecWith defaultConfig {configFastFail = True} specs
 
 specs :: Spec
-specs = describe "grains" $ do
+specs = do
           describe "square" $ for_ squareCases squareTest
           describe "total"  $ totalTest totalCase
   where
@@ -23,9 +23,6 @@ specs = describe "grains" $ do
     totalTest (description, expected) = it description assertion
       where
         assertion = fromIntegral total `shouldBe` expected
-
--- As of 2016-07-27, there was no reference file
--- for the test cases in `exercism/x-common`.
 
 squareCases :: [(String, Integer, Maybe Integer)]
 squareCases =

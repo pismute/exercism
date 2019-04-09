@@ -11,15 +11,12 @@ main :: IO ()
 main = hspecWith defaultConfig {configFastFail = True} specs
 
 specs :: Spec
-specs = describe "nth-prime" $
-          describe "nth" $ for_ cases test
+specs = describe "nth" $ for_ cases test
   where
 
     test Case{..} = it description assertion
       where
         assertion = nth (fromIntegral input) `shouldBe` expected
-
--- Test cases adapted from `exercism/x-common` on 2016-09-19.
 
 data Case = Case { description :: String
                  , input       :: Integer

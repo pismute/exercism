@@ -53,6 +53,25 @@ And if we then added 1, 5, and 7, it would look like this
      / \     / \
     1   3   5   7
 
+## Hints
+
+To complete this exercise you need to create the data type `BST`,
+with `Eq` and `Show` instances, and implement the functions:
+
+- `bstLeft`
+- `bstRight`
+- `bstValue`
+- `empty`
+- `fromList`
+- `insert`
+- `singleton`
+- `toList`
+
+You will find a dummy data declaration and type signatures already in place,
+but it is up to you to define the functions and create a meaningful data type,
+newtype or type synonym.
+
+
 
 ## Getting Started
 
@@ -100,34 +119,15 @@ stack ghci
 
 ## Feedback, Issues, Pull Requests
 
-The [exercism/xhaskell](https://github.com/exercism/xhaskell) repository on
+The [exercism/haskell](https://github.com/exercism/haskell) repository on
 GitHub is the home for all of the Haskell exercises.
 
 If you have feedback about an exercise, or want to help implementing a new
 one, head over there and create an issue.  We'll do our best to help you!
 
-## Hints
-
-To complete this exercise you need to create the data type `BST`,
-with `Eq` and `Show` instances, and implement the functions:
-
-- `bstLeft`
-- `bstRight`
-- `bstValue`
-- `empty`
-- `fromList`
-- `insert`
-- `singleton`
-- `toList`
-
-You will find a dummy data declaration and type signatures already in place,
-but it is up to you to define the functions and create a meaningful data type,
-newtype or type synonym.
-
 ## Source
 
 Josh Cheek [https://twitter.com/josh_cheek](https://twitter.com/josh_cheek)
 
-## Submitting Incomplete Problems
+## Submitting Incomplete Solutions
 It's possible to submit an incomplete solution so you can see how others have completed the exercise.
-

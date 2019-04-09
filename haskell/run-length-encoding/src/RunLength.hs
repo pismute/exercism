@@ -11,7 +11,7 @@ decode xs = let
   in replicate n y ++ decode ys
   where
     parseCount [] = 1
-    parseCount xs = (read xs :: Int)
+    parseCount ys = (read ys :: Int)
 
 encode :: String -> String
 encode = (>>= codify) . L.group

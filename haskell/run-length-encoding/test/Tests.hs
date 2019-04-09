@@ -10,16 +10,12 @@ main :: IO ()
 main = hspecWith defaultConfig {configFastFail = True} specs
 
 specs :: Spec
-specs = describe "run-length-encoding" $ do
+specs = do
           describe "decode" $ for_ decodeCases $ test decode
           describe "encode" $ for_ encodeCases $ test encode
           describe "both"   $ for_ bothCases   $ test (decode . encode)
   where
     test f Case{..} = it description $ f input `shouldBe` expected
-
--- Test cases adapted from file
--- `exercism/x-common/exercises/run-length-encoding/canonical-data.json`
--- on 2016-12-26.
 
 data Case = Case { description :: String
                  , input       :: String
@@ -44,6 +40,14 @@ encodeCases =
            , input       = "WWWWWWWWWWWWBWWWWWWWWWWWWBBBWWWWWWWWWWWWWWWWWWWWWWWWB"
            , expected    = "12WB12W3B24WB"
            }
+    , Case { description = "encode whitespace"
+           , input       = "  hsqq qww  "
+           , expected    = "2 hs2q q2w2 "
+           }
+    , Case { description = "encode lowercase"
+           , input       = "aabbbcccc"
+           , expected    = "2a3b4c"
+           }
     ]
 
 decodeCases :: [Case]
@@ -63,6 +67,14 @@ decodeCases =
     , Case { description = "decode with single values"
            , input       = "12WB12W3B24WB"
            , expected    = "WWWWWWWWWWWWBWWWWWWWWWWWWBBBWWWWWWWWWWWWWWWWWWWWWWWWB"
+           }
+    , Case { description = "decode whitespace"
+           , input       = "2 hs2q q2w2 "
+           , expected    = "  hsqq qww  "
+           }
+    , Case { description = "decode lowercase"
+           , input       = "2a3b4c"
+           , expected    = "aabbbcccc"
            }
     ]
 

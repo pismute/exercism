@@ -1,15 +1,19 @@
--- This file has been generated from package.yaml by hpack version 0.14.0.
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.1.
 --
 -- see: https://github.com/sol/hpack
+--
+-- hash: 0d0c0bd189b053a1816b657aec9f6d23f4e859b24bc955d009b7144b307bc4e0
 
 name:           hamming
-version:        0.0.0
+version:        2.3.0.10
 build-type:     Simple
-cabal-version:  >= 1.10
 
 library
   hs-source-dirs:
       src
+  ghc-options: -Wall
   build-depends:
       base
   exposed-modules:
@@ -21,6 +25,8 @@ library
 test-suite test
   type: exitcode-stdio-1.0
   main-is: Tests.hs
+  other-modules:
+      Paths_hamming
   hs-source-dirs:
       test
   build-depends:

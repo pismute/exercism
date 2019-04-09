@@ -1,16 +1,19 @@
 # Matrix
 
-Given a string representing a matrix of numbers, return the rows and columns of that matrix.
+Given a string representing a matrix of numbers, return the rows and columns of
+that matrix.
 
 So given a string with embedded newlines like:
 
-> 9 8 7  
-> 5 3 2  
-> 6 6 7  
+```text
+9 8 7
+5 3 2
+6 6 7
+```
 
 representing this matrix:
 
-```plain
+```text
     0  1  2
   |---------
 0 | 9  8  7
@@ -36,6 +39,32 @@ And its columns:
 - 9, 5, 6
 - 8, 3, 6
 - 7, 2, 7
+
+## Hints
+
+To complete this exercise, you need to create the data type `Matrix`,
+with `Eq` and `Show` instances, and implement the following functions:
+
+- `cols`
+- `column`
+- `flatten`
+- `fromList`
+- `fromString`
+- `reshape`
+- `row`
+- `rows`
+- `shape`
+- `transpose`
+
+You will find a dummy data declaration and type signatures already in place,
+but it is up to you to define the functions and create a meaningful data type,
+newtype or type synonym.
+
+No validation of input is required. Let it fail if the matrix is not
+rectangular, invalid chars are encountered, etc.
+
+shape is (rows, cols)
+
 
 
 ## Getting Started
@@ -84,41 +113,15 @@ stack ghci
 
 ## Feedback, Issues, Pull Requests
 
-The [exercism/xhaskell](https://github.com/exercism/xhaskell) repository on
+The [exercism/haskell](https://github.com/exercism/haskell) repository on
 GitHub is the home for all of the Haskell exercises.
 
 If you have feedback about an exercise, or want to help implementing a new
 one, head over there and create an issue.  We'll do our best to help you!
 
-## Hints
-
-To complete this exercise, you need to create the data type `Matrix`,
-with `Eq` and `Show` instances, and implement the following functions:
-
-- `cols`
-- `column`
-- `flatten`
-- `fromList`
-- `fromString`
-- `reshape`
-- `row`
-- `rows`
-- `shape`
-- `transpose`
-
-You will find a dummy data declaration and type signatures already in place,
-but it is up to you to define the functions and create a meaningful data type,
-newtype or type synonym.
-
-No validation of input is required. Let it fail if the matrix is not
-rectangular, invalid chars are encountered, etc.
-
-shape is (rows, cols)
-
 ## Source
 
 Warmup to the `saddle-points` warmup. [http://jumpstartlab.com](http://jumpstartlab.com)
 
-## Submitting Incomplete Problems
+## Submitting Incomplete Solutions
 It's possible to submit an incomplete solution so you can see how others have completed the exercise.
-

@@ -1,26 +1,22 @@
 {-# LANGUAGE TupleSections #-}
-module DNA (count, nucleotideCounts) where
+
+module DNA (nucleotideCounts, Nucleotide(..)) where
 
 import qualified Data.Map as M
-import qualified Data.Set as S
+import Text.Read (readEither)
 import Control.Monad (foldM)
+import Data.Bifunctor (first)
 
-zeroNucleotides = M.fromList $ (, 0) <$> "ACGT"
+data Nucleotide = A | C | G | T deriving (Eq, Ord, Show, Enum, Read)
 
-validNucleotide :: Char -> Either String Char
-validNucleotide nucleotide
-  | M.member nucleotide zeroNucleotides = Right nucleotide
-  | otherwise = Left $ "unknown nucleotide: " ++ [nucleotide]
+zeroNucleotides :: M.Map Nucleotide Int
+zeroNucleotides = M.fromList $ (, 0) <$> enumFrom A
 
-nucleotideCounts :: String -> Either String (M.Map Char Int)
+nucleotideCounts :: String -> Either String (M.Map Nucleotide Int)
 nucleotideCounts =
-  foldM validIncrement zeroNucleotides
+  foldM accumulate zeroNucleotides
   where
-    validIncrement acc x =
-      (flip (M.adjust succ) acc) <$> validNucleotide x
+    accumulate acc x = (\y -> M.adjust (+1) y acc) <$> readNucleotide [x]
 
-count :: Char -> String -> Either String Int
-count nucleotide nucleotides = do
-  x <- validNucleotide nucleotide
-  xs <- nucleotideCounts nucleotides
-  return $ xs M.! x
+    readNucleotide :: String -> Either String Nucleotide
+    readNucleotide xs = first ((xs ++) . (": " ++)) $ readEither xs

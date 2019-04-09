@@ -1,4 +1,4 @@
-import Test.Hspec        (Spec, describe, it, shouldBe)
+import Test.Hspec        (Spec, it, shouldBe)
 import Test.Hspec.Runner (configFastFail, defaultConfig, hspecWith)
 
 import Data.List (isPrefixOf)
@@ -9,10 +9,7 @@ main :: IO ()
 main = hspecWith defaultConfig {configFastFail = True} specs
 
 specs :: Spec
-specs = describe "strain" $ do
-
-    -- As of 2016-07-27, there was no reference file
-    -- for the test cases in `exercism/x-common`.
+specs = do
 
     it "empty keep" $
         keep (<10) [] `shouldBe` ([] :: [Int])

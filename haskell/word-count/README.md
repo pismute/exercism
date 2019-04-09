@@ -4,12 +4,34 @@ Given a phrase, count the occurrences of each word in that phrase.
 
 For example for the input `"olly olly in come free"`
 
-```plain
+```text
 olly: 2
 in: 1
 come: 1
 free: 1
 ```
+
+## Hints
+
+To complete this exercise you need to implement the function `wordCount`,
+that takes a *text* and returns how many times each *word* appears.
+
+If it is your first time solving this exercise, it is recommended that you
+stick to the provided signature:
+
+```haskell
+wordCount :: String -> [(String, Int)]
+```
+
+Later, it may be a good idea to revisit this problem and play with other data
+types and libraries:
+
+- `Text`, from package *text*.
+- `Map`, from package *containers*.
+- `MultiSet`, from package *multiset*
+
+The test suite was intentionally designed to accept almost any type signature
+that makes sense, so you are encouraged to find the one you think is the best.
 
 
 
@@ -59,38 +81,15 @@ stack ghci
 
 ## Feedback, Issues, Pull Requests
 
-The [exercism/xhaskell](https://github.com/exercism/xhaskell) repository on
+The [exercism/haskell](https://github.com/exercism/haskell) repository on
 GitHub is the home for all of the Haskell exercises.
 
 If you have feedback about an exercise, or want to help implementing a new
 one, head over there and create an issue.  We'll do our best to help you!
 
-## Hints
-
-To complete this exercise you need to implement the function `wordCount`,
-that takes a *text* and returns how many times each *word* appears.
-
-If it is your first time solving this exercise, it is recommended that you
-stick to the provided signature:
-
-```haskell
-wordCount :: String -> [(String, Int)]
-```
-
-Later, it may be a good idea to revisit this problem and play with other data
-types and libraries:
-
-- `Text`, from package *text*.
-- `Map`, from package *containers*.
-- `MultiSet`, from package *multiset*
-
-The test suite was intentionally designed to accept almost any type signature
-that makes sense, so you are encouraged to find the one you think is the best.
-
 ## Source
 
 This is a classic toy problem, but we were reminded of it by seeing it in the Go Tour.
 
-## Submitting Incomplete Problems
+## Submitting Incomplete Solutions
 It's possible to submit an incomplete solution so you can see how others have completed the exercise.
-

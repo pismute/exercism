@@ -1,12 +1,15 @@
 name: rna-transcription
+version: 1.3.0.10
 
 dependencies:
   - base
+  - containers
 
 library:
   exposed-modules: DNA
   source-dirs: src
-  dependencies:
+  ghc-options: -Wall
+  # dependencies:
   # - foo       # List here the packages you
   # - bar       # want to use in your solution.
 

@@ -7,7 +7,7 @@ type School = M.Map Int [String]
 type Grades = [(Int, [String])]
 
 add :: Int -> String -> School -> School
-add grade name = M.insertWith (flip (++)) grade [name]
+add g name = M.insertWith (flip (++)) g [name]
 
 empty :: School
 empty = M.empty

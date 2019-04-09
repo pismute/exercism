@@ -1,11 +1,11 @@
-# Pascals Triangle
+# Pascal's Triangle
 
 Compute Pascal's triangle up to a given number of rows.
 
 In Pascal's Triangle each number is computed by adding the numbers to
 the right and left of the current position in the previous row.
 
-```plain
+```text
     1
    1 1
   1 2 1
@@ -61,7 +61,7 @@ stack ghci
 
 ## Feedback, Issues, Pull Requests
 
-The [exercism/xhaskell](https://github.com/exercism/xhaskell) repository on
+The [exercism/haskell](https://github.com/exercism/haskell) repository on
 GitHub is the home for all of the Haskell exercises.
 
 If you have feedback about an exercise, or want to help implementing a new
@@ -71,6 +71,5 @@ one, head over there and create an issue.  We'll do our best to help you!
 
 Pascal's Triangle at Wolfram Math World [http://mathworld.wolfram.com/PascalsTriangle.html](http://mathworld.wolfram.com/PascalsTriangle.html)
 
-## Submitting Incomplete Problems
+## Submitting Incomplete Solutions
 It's possible to submit an incomplete solution so you can see how others have completed the exercise.
-

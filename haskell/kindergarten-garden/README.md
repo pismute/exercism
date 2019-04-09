@@ -1,20 +1,21 @@
 # Kindergarten Garden
 
-Write a program that, given a diagram, can tell you which plants each child in the kindergarten class is responsible for.
+Given a diagram, determine which plants each child in the kindergarten class is
+responsible for.
 
-The kindergarten class is learning about growing plants. The teachers
+The kindergarten class is learning about growing plants. The teacher
 thought it would be a good idea to give them actual seeds, plant them in
 actual dirt, and grow actual plants.
 
 They've chosen to grow grass, clover, radishes, and violets.
 
-To this end, they've put little styrofoam cups along the window sills,
-and planted one type of plant in each cup, choosing randomly from the
-available types of seeds.
+To this end, the children have put little cups along the window sills, and
+planted one type of plant in each cup, choosing randomly from the available
+types of seeds.
 
-```plain
+```text
 [window][window][window]
-........................ # each dot represents a styrofoam cup
+........................ # each dot represents a cup
 ........................
 ```
 
@@ -24,27 +25,27 @@ There are 12 children in the class:
 - Eve, Fred, Ginny, Harriet,
 - Ileana, Joseph, Kincaid, and Larry.
 
-Each child gets 4 cups, two on each row. The children are assigned to
-cups in alphabetical order.
+Each child gets 4 cups, two on each row. Their teacher assigns cups to
+the children alphabetically by their names.
 
 The following diagram represents Alice's plants:
 
-```plain
+```text
 [window][window][window]
 VR......................
 RG......................
 ```
 
-So in the row nearest the window, she has a violet and a radish; in the
-row behind that, she has a radish and some grass.
+In the first row, nearest the windows, she has a violet and a radish.  In the
+second row she has a radish and some grass.
 
 Your program will be given the plants from left-to-right starting with
 the row nearest the windows. From this, it should be able to determine
-which plants belong to which students.
+which plants belong to each student.
 
 For example, if it's told that the garden looks like so:
 
-```plain
+```text
 [window][window][window]
 VRCGVVRVCGGCCGVRGCVCGCGV
 VRCCCGCRRGVCGCRVVCVGCGCV
@@ -105,7 +106,7 @@ stack ghci
 
 ## Feedback, Issues, Pull Requests
 
-The [exercism/xhaskell](https://github.com/exercism/xhaskell) repository on
+The [exercism/haskell](https://github.com/exercism/haskell) repository on
 GitHub is the home for all of the Haskell exercises.
 
 If you have feedback about an exercise, or want to help implementing a new
@@ -115,6 +116,5 @@ one, head over there and create an issue.  We'll do our best to help you!
 
 Random musings during airplane trip. [http://jumpstartlab.com](http://jumpstartlab.com)
 
-## Submitting Incomplete Problems
+## Submitting Incomplete Solutions
 It's possible to submit an incomplete solution so you can see how others have completed the exercise.
-

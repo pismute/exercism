@@ -1,15 +1,19 @@
--- This file has been generated from package.yaml by hpack version 0.15.0.
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.1.
 --
 -- see: https://github.com/sol/hpack
+--
+-- hash: d3de17d59844df19defafa2582f3963949416557faf2d29768daa579e419f78a
 
 name:           meetup
-version:        0.0.0
+version:        1.1.0.5
 build-type:     Simple
-cabal-version:  >= 1.10
 
 library
   hs-source-dirs:
       src
+  ghc-options: -Wall
   build-depends:
       base
     , time
@@ -22,11 +26,13 @@ library
 test-suite test
   type: exitcode-stdio-1.0
   main-is: Tests.hs
+  other-modules:
+      Paths_meetup
   hs-source-dirs:
       test
   build-depends:
       base
-    , time
-    , meetup
     , hspec
+    , meetup
+    , time
   default-language: Haskell2010

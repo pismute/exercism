@@ -10,16 +10,13 @@ main :: IO ()
 main = hspecWith defaultConfig {configFastFail = True} specs
 
 specs :: Spec
-specs = describe "raindrops" $
-          describe "convert" $ for_ cases test
+specs = describe "convert" $ for_ cases test
   where
 
     test (number, expected) = it description assertion
       where
         description = show number
         assertion   = convert number `shouldBe` expected
-
-    -- Test cases adapted from `exercism/x-common` on 2016-09-19.
 
     cases = [ (   1, "1"              )
             , (   3, "Pling"          )

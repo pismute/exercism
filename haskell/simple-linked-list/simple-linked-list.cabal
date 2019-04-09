@@ -1,15 +1,19 @@
--- This file has been generated from package.yaml by hpack version 0.15.0.
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.1.
 --
 -- see: https://github.com/sol/hpack
+--
+-- hash: 95f4a3c7bd634640fd4cd7bfed23e32b95c26d18a7380c97d23e563b8d13d695
 
 name:           simple-linked-list
-version:        0.0.0
+version:        0.1.0.3
 build-type:     Simple
-cabal-version:  >= 1.10
 
 library
   hs-source-dirs:
       src
+  ghc-options: -Wall
   build-depends:
       base
   exposed-modules:
@@ -21,10 +25,13 @@ library
 test-suite test
   type: exitcode-stdio-1.0
   main-is: Tests.hs
+  other-modules:
+      Paths_simple_linked_list
   hs-source-dirs:
       test
   build-depends:
-      base
-    , simple-linked-list
+      QuickCheck
+    , base
     , hspec
+    , simple-linked-list
   default-language: Haskell2010

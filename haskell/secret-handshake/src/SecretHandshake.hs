@@ -3,8 +3,7 @@ module SecretHandshake (handshake, secretWords) where
 
 import Numeric (readInt)
 import qualified Data.Char as C
-import Data.Bits ((.&.), shiftL)
-import Data.Maybe (fromMaybe)
+import Data.Bits ((.&.))
 
 class ToInt a where
   toInt :: a -> Int
@@ -19,6 +18,7 @@ instance ToInt String where
       parseInt [(n,"")] = n
       parseInt _ = 0
 
+secretWords :: [(Int, [[Char]] -> [[Char]])]
 secretWords =
   [ (16, reverse)
   , (1, ("wink":))
@@ -27,10 +27,11 @@ secretWords =
   , (8, ("jump":))
   ]
 
+handshake :: ToInt a => a -> [[Char]]
 handshake n =
   foldr (say n) [] secretWords
   where
-    say n (bit, f) xs =
-      if bit == (bit .&. (toInt n))
+    say code (bit, f) xs =
+      if bit == (bit .&. (toInt code))
         then f xs
         else xs

@@ -8,20 +8,18 @@ main :: IO ()
 main = hspecWith defaultConfig {configFastFail = True} specs
 
 specs :: Spec
-specs = describe "house" $
+specs = describe "rhyme" $ do
 
-          describe "rhyme" $ do
+          -- First we test the input, line by line, to give more
+          -- useful error messages.
 
-            -- First we test the input, line by line, to give more
-            -- useful error messages.
+          it "matches lines" $ sequence_ lineAssertions
 
-            it "matches lines" $ sequence_ lineAssertions
+          -- Finally, because testing lines we are unable
+          -- to detect a missing newline at the end of the
+          -- lyrics, we test the full song.
 
-            -- Finally, because testing lines we are unable
-            -- to detect a missing newline at the end of the
-            -- lyrics, we test the full song.
-
-            it "matches full song" $ rhyme `shouldBe` lyrics
+          it "matches full song" $ rhyme `shouldBe` lyrics
   where
 
     lineAssertions = zipWith checkLine [1 :: Int ..] $ zipMaybe (lines rhyme) (lines lyrics)
@@ -35,7 +33,7 @@ specs = describe "house" $
     zipMaybe    []  (y:ys) = (Nothing, Just y ) : zipMaybe [] ys
     zipMaybe (x:xs) (y:ys) = (Just x , Just y ) : zipMaybe xs ys
 
--- Lyrics extracted from `exercism/x-common` on 2016-09-23.
+-- Lyrics extracted from `exercism/problem-specifications` on 2016-09-23.
 
 lyrics :: String
 lyrics = "This is the house that Jack built.\n\

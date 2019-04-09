@@ -1,6 +1,6 @@
 {-# OPTIONS_GHC -fno-warn-type-defaults #-}
 
-import Test.Hspec        (Spec, describe, it, shouldBe)
+import Test.Hspec        (Spec, it, shouldBe)
 import Test.Hspec.Runner (configFastFail, defaultConfig, hspecWith)
 
 import School (add, empty, grade, sorted)
@@ -9,10 +9,7 @@ main :: IO ()
 main = hspecWith defaultConfig {configFastFail = True} specs
 
 specs :: Spec
-specs = describe "grade-school" $ do
-
-          -- As of 2016-07-27, there was no reference file
-          -- for the test cases in `exercism/x-common`.
+specs = do
 
           let fromList = foldr (uncurry add) empty
           let fromGrade g = fromList . zip (repeat g)
@@ -27,6 +24,9 @@ specs = describe "grade-school" $ do
           it "add students to different grades" $
             sorted (fromList [(3, "Chelsea"), (7, "Logan")])
             `shouldBe` [(3, ["Chelsea"]), (7, ["Logan"])]
+
+          it "empty list if no students" $
+            sorted empty `shouldBe` []
 
           it "get students in a grade" $
             grade 5 (fromList [(5, "Franklin"), (5, "Bradley"), (1, "Jeff")])

@@ -1,12 +1,12 @@
 # Scrabble Score
 
-Write a program that, given a word, computes the scrabble score for that word.
+Given a word, compute the scrabble score for that word.
 
 ## Letter Values
 
 You'll need these:
 
-```plain
+```text
 Letter                           Value
 A, E, I, O, U, L, N, R, S, T       1
 D, G                               2
@@ -18,6 +18,7 @@ Q, Z                               10
 ```
 
 ## Examples
+
 "cabbage" should be scored as worth 14 points:
 
 - 3 points for C
@@ -34,8 +35,9 @@ And to total:
 - = 14
 
 ## Extensions
-- You can play a `:double` or a `:triple` letter.
-- You can play a `:double` or a `:triple` word.
+
+- You can play a double or a triple letter.
+- You can play a double or a triple word.
 
 
 ## Getting Started
@@ -84,7 +86,7 @@ stack ghci
 
 ## Feedback, Issues, Pull Requests
 
-The [exercism/xhaskell](https://github.com/exercism/xhaskell) repository on
+The [exercism/haskell](https://github.com/exercism/haskell) repository on
 GitHub is the home for all of the Haskell exercises.
 
 If you have feedback about an exercise, or want to help implementing a new
@@ -94,6 +96,5 @@ one, head over there and create an issue.  We'll do our best to help you!
 
 Inspired by the Extreme Startup game [https://github.com/rchatley/extreme_startup](https://github.com/rchatley/extreme_startup)
 
-## Submitting Incomplete Problems
+## Submitting Incomplete Solutions
 It's possible to submit an incomplete solution so you can see how others have completed the exercise.
-

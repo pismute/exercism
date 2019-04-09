@@ -4,115 +4,93 @@ import Data.Foldable     (for_)
 import Test.Hspec        (Spec, describe, it, shouldBe)
 import Test.Hspec.Runner (configFastFail, defaultConfig, hspecWith)
 
-import Phone (areaCode, number, prettyPrint)
+import Phone (number)
 
 main :: IO ()
 main = hspecWith defaultConfig {configFastFail = True} specs
 
 specs :: Spec
-specs = describe "phone-number" $ do
-          describe "number"      $ for_ numberCases      $ test number
-          describe "areaCode"    $ for_ areaCodeCases    $ test areaCode
-          describe "prettyPrint" $ for_ prettyPrintCases $ test prettyPrint
+specs = describe "number" $ for_ cases test
   where
-    test f Case{..} = it description $ f input `shouldBe` expected
-
--- As of 2016-07-27, there was no reference file
--- for the test cases in `exercism/x-common`.
+    test Case{..} = it description $ number input `shouldBe` expected
 
 data Case = Case { description ::       String
                  , input       ::       String
                  , expected    :: Maybe String
                  }
 
-numberCases :: [Case]
-numberCases =
-    [ Case { description = "cleans number"
-           , input       = "(123) 456-7890"
-           , expected    = Just "1234567890"
+cases :: [Case]
+cases =
+    [ Case { description = "cleans the number"
+           , input       = "(223) 456-7890"
+           , expected    = Just "2234567890"
            }
-    , Case { description = "cleans another number"
-           , input       = "(612) 555-1212"
-           , expected    = Just "6125551212"
+    , Case { description = "cleans numbers with dots"
+           , input       = "223.456.7890"
+           , expected    = Just "2234567890"
            }
-    , Case { description = "cleans number with dots"
-           , input       = "123.456.7890"
-           , expected    = Just "1234567890"
-           }
-    , Case { description = "cleans another number with dots"
-           , input       = "918.765.4321"
-           , expected    = Just "9187654321"
-           }
-    , Case { description = "valid when 11 digits and first is 1"
-           , input       = "12468013579"
-           , expected    = Just "2468013579"
-           }
-    , Case { description = "invalid when 11 digits"
-           , input       = "21234567890"
-           , expected    = Nothing
+    , Case { description = "cleans numbers with multiple spaces"
+           , input       = "223 456   7890   "
+           , expected    = Just "2234567890"
            }
     , Case { description = "invalid when 9 digits"
            , input       = "123456789"
            , expected    = Nothing
            }
-    , Case { description = "invalid when 12 digits"
-           , input       = "123456789012"
+    , Case { description = "invalid when 11 digits does not start with a 1"
+           , input       = "22234567890"
            , expected    = Nothing
            }
-    , Case { description = "invalid when empty"
-           , input       = ""
+    , Case { description = "valid when 11 digits and starting with 1"
+           , input       = "12234567890"
+           , expected    = Just "2234567890"
+           }
+    , Case { description = "valid when 11 digits and starting with 1 even with punctuation"
+           , input       = "+1 (223) 456-7890"
+           , expected    = Just "2234567890"
+           }
+    , Case { description = "invalid when more than 11 digits"
+           , input       = "321234567890"
            , expected    = Nothing
            }
-    , Case { description = "invalid when no digits present"
-           , input       = " (-) "
+    , Case { description = "invalid if area code starts with 0 on valid 11-digit number"
+           , input       = "1 (023) 456-7890"
            , expected    = Nothing
            }
-    , Case { description = "valid with leading characters"
-           , input       = "my number is 235 813 2134"
-           , expected    = Just "2358132134"
-           }
-    , Case { description = "valid with trailing characters"
-           , input       = "987 654 3210 - bob"
-           , expected    = Just "9876543210"
-           }
-    , Case { description = "valid amidst text and punctuation"
-           , input       = "Here it is: 415-888-0000. Thanks!"
-           , expected    = Just "4158880000"
-           }
-    ]
-
-areaCodeCases :: [Case]
-areaCodeCases =
-    [ Case { description = "area code"
-           , input       = "1234567890"
-           , expected    = Just "123"
-           }
-    , Case { description = "area code with parentheses"
-           , input       = "(612) 555-1212"
-           , expected    = Just "612"
-           }
-    , Case { description = "area code with leading characters"
-           , input       = "my number is 235 813 2134"
-           , expected    = Just "235"
-           }
-    , Case { description = "invalid area code"
-           , input       = " (-) "
+    , Case { description = "invalid if area code starts with 1 on valid 11-digit number"
+           , input       = "1 (123) 456-7890"
            , expected    = Nothing
            }
-    ]
-
-prettyPrintCases :: [Case]
-prettyPrintCases =
-    [ Case { description = "pretty print"
-           , input       = "1234567890"
-           , expected    = Just "(123) 456-7890"
+    , Case { description = "invalid if exchange code starts with 0 on valid 11-digit number"
+           , input       = "1 (223) 056-7890"
+           , expected    = Nothing
            }
-    , Case { description = "pretty print with full US phone number"
-           , input       = "12345678901"
-           , expected    = Just "(234) 567-8901"
+    , Case { description = "invalid if exchange code starts with 1 on valid 11-digit number"
+           , input       = "1 (223) 156-7890"
+           , expected    = Nothing
            }
-    , Case { description = "pretty print amidst text and punctuation"
-           , input       = "Here it is: 415-888-0000. Thanks!"
-           , expected    = Just "(415) 888-0000"
+    , Case { description = "invalid with letters"
+           , input       = "123-abc-7890"
+           , expected    = Nothing
+           }
+    , Case { description = "invalid with punctuations"
+           , input       = "123-@:!-7890"
+           , expected    = Nothing
+           }
+    , Case { description = "invalid if area code starts with 0"
+           , input       = "(023) 456-7890"
+           , expected    = Nothing
+           }
+    , Case { description = "invalid if area code starts with 1"
+           , input       = "(123) 456-7890"
+           , expected    = Nothing
+           }
+    , Case { description = "invalid if exchange code starts with 0"
+           , input       = "(223) 056-7890"
+           , expected    = Nothing
+           }
+    , Case { description = "invalid if exchange code starts with 1"
+           , input       = "(223) 156-7890"
+           , expected    = Nothing
            }
     ]

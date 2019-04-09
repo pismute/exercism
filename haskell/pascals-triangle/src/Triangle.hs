@@ -8,8 +8,8 @@ rows n = L.unfoldr (uncurry f') (n, [])
   where
     next' [] = [1]
     next' xs = [1] ++ (sum <$> LS.divvy 2 1 xs) ++ [1]
-    f' n xs
-      | n <= 0 = Nothing
+    f' m xs
+      | m <= 0 = Nothing
       | otherwise = let
         ys = next' xs
-        in Just (ys, (n - 1, ys))
+        in Just (ys, (m - 1, ys))

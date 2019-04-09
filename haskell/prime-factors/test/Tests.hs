@@ -10,15 +10,12 @@ main :: IO ()
 main = hspecWith defaultConfig {configFastFail = True} specs
 
 specs :: Spec
-specs = describe "prime-factors" $
-          describe "primeFactors" $ for_ cases test
+specs = describe "primeFactors" $ for_ cases test
   where
 
     test (description, n, expected) = it description assertion
       where
         assertion   = primeFactors n `shouldBe` expected
-
-    -- Test cases adapted from `exercism/x-common/prime-factors` on 2017-02-01.
 
     cases = [ ("no factors",                              1,                 [] )
             , ("prime number",                            2,                [2] )
