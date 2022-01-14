@@ -37,16 +37,16 @@ impl fmt::Display for ResistorColor {
 }
 
 pub fn color_to_value(_color: ResistorColor) -> usize {
-    _color.int_value() as usize
+    _color.int_value()
 }
 
 pub fn value_to_color_string(value: usize) -> String {
     match ResistorColor::from_int(value) {
         Ok(v) => v.to_string(),
-        _ => "value out of range".to_string(),
+        _ => String::from("value out of range"),
     }
 }
 
 pub fn colors() -> Vec<ResistorColor> {
-    ResistorColor::into_enum_iter().collect()
+    Vec::from_iter(ResistorColor::into_enum_iter())
 }
