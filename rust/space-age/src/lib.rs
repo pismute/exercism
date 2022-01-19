@@ -1,5 +1,3 @@
-const EARTH_SECONDS: f64 = 31557600.0;
-
 #[derive(Debug)]
 pub struct Duration(f64);
 
@@ -10,10 +8,12 @@ impl From<u64> for Duration {
 }
 
 pub trait Planet {
+    const AN_EARTH_YEAR_SECONDS: f64 = 31557600.0;
+
     const EARTH_YEARS: f64;
 
     fn years_during(d: &Duration) -> f64 {
-        d.0 / (EARTH_SECONDS * Self::EARTH_YEARS)
+        d.0 / (Self::AN_EARTH_YEAR_SECONDS * Self::EARTH_YEARS)
     }
 }
 
